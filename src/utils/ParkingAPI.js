@@ -2,6 +2,7 @@ import { supabase } from "./supabaseClient";
 
 //혹시라도 이해안되시면 설명해드릴테니 편히 말씀주세요!
 
+
 /** 회원가입 페이지 - 정우 */ 
 /** 1. 로그인 **/
 //필요한 정보 : input에 입력된 userID와 password
@@ -72,15 +73,11 @@ export const findPassword = async (username,phone,userID,newpass)=>{
     return {data,error};
 }
 
-
 {/** 마이페이지 */}
-
+=======
 /** 메인페이지 */
 // 예약하기 구역선택 쪽 참고 //
 // 날짜만 오늘 날짜로 설정해서 실시간 업데이트되게 바꾸면 될것같습니다
-
-
-
 
 /** 1. 예약내역확인 **/
 export const fetchMyReserve = async (userID)=>{
@@ -123,7 +120,8 @@ export const cancelReserve = async (reserveID,parkareaID)=>{
     const { error:parkareaError } = await supabase
         .from('parkarea')
         .update({is_reserved:false})
-        .eq('id',parkareaID);
+        .eq('zone',parkareaZone)
+        .eq('num',parkareaNum);
     if( parkareaError ){
         return {data:false,error:parkareaError}
     }
@@ -132,11 +130,22 @@ export const cancelReserve = async (reserveID,parkareaID)=>{
 
 /** 4. 비밀번호 변경 **/
 //비밀번호 확인에서 일치하는거
-export const changePassword = async (oldpass,newpass)=>{
+export const changePassword = async ({
+    id,
+    newPass,
+    newName,
+    newCar,
+    newPhone
+})=>{
     const { error } = await supabase
         .from('users')
-        .update({password:newpass})
-        .eq('password',oldpass);
+        .update({
+            password:newPass,
+            name:newName,
+            phone:newPhone,
+            car:newCar
+            })
+        .eq('id',id);
     return {error};
 }
 

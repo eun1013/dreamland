@@ -13,7 +13,10 @@ const MainHeaderMobile = () => {
         />
 
         <div className="user-info" onClick={() => navigate('/')}>
-          <span>김드림님</span>
+          <p>
+            김드림
+            <span>님</span>
+            </p>
           <div className="user-icon">
             <FaUserLarge />
           </div>

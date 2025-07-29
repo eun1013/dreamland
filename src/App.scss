@@ -1,4 +1,19 @@
 @import "./styles/global.scss";
+
+// ----- 마이페이지 -----
+@import "./styles/MyPage/MyPageHome.scss";
+@import "./styles/MyPage/Reservation.scss";
+@import "./styles/MyPage/Cancel.scss";
+@import "./styles/MyPage/Complete.scss";
+@import "./styles/MyPage/PasswordCheck.scss";
+@import "./styles/MyPage/ProfileEdit.scss";
+
 @import "./styles/mobile/FloorSelect.scss";
 @import "./styles/mobile/IconTitle.scss";
-@import "./styles//mobile/ParkingSelect.scss";
+@import "./styles/mobile/ParkingSelect.scss";
+@import "./styles/mobile/MainPageMobile.scss";
+@import "./styles/mobile/MainHeaderMobile.scss";
+@import "./styles/mobile/HeaderMobile.scss";
+@import "./styles/mobile/BottomNavBarMobile.scss";
+@import "./styles/mobile/Footer.scss";
+@import "./styles/mobile/ScheduleSelect.scss";
