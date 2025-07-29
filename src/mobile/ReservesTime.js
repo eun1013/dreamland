@@ -6,6 +6,22 @@ import { getUserInfo } from "../utils/LocalStorage";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleFill } from "react-icons/pi";
 
+  // localStorage 저장 "시작시간"  
+    const saveStartTime = (startTime) => {
+    localStorage.setItem("start_time", JSON.stringify(startTime));
+    }
+  // localStorage 저장 "종료시간"
+    export const saveEndTime = (endTime) => {
+    localStorage.setItem("end_time", JSON.stringify(endTime));
+    }
+  // localStorage 저장 "총 금액"
+    export const saveTotal = (total) => {
+    localStorage.setItem("total", JSON.stringify(total));
+    }
+  // localStorage 저장 "총 시간"
+    export const saveHourAndMinutes = (hourAndMinutes) => {
+    localStorage.setItem("hourAndMinutes", JSON.stringify(hourAndMinutes));
+    }
 
 const ReservesTime = ({reservation}) => {
   const [startTime, setStartTime] = useState(''); // 시작 시간관리
@@ -75,12 +91,15 @@ const ReservesTime = ({reservation}) => {
   //↓↓ 다음 버튼을 클릭했을 때 처리
   const handleClick = ()=>{
     reservation.setSelectStartTime(startTime);
+    saveStartTime(startTime); // 시작 시간 로컬에 저장
     reservation.setSelectEndTime(endTime);
+    saveEndTime(endTime); // 종료 시간 로컬에 저장
     reservation.setSelectTotal(total);
+    saveTotal(total); // 총 금액 로컬에 저장
     reservation.setSelectTime(hourAndMinutes);
+    saveHourAndMinutes(hourAndMinutes); // 총 시간 로컬에 저장
     navigate('/') //다음페이지로 넘겨주기
   }
-  console.log(startTime,endTime,total,hourAndMinutes);
 
   return (
     <div className="reserves-time">

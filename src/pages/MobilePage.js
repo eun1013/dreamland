@@ -27,7 +27,7 @@ const MobilePage = () => {
   //메인페이지 -> 예약페이지
   return (
     <div className="mobile-page">
-      <MyPage />
+      {/* <MyPage /> */}
       <HeaderMobile />
       <Routes>
         <Route path="/" element={<MainPageMobile />}/>

@@ -5,6 +5,25 @@ import { PiWarningFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleFill } from "react-icons/pi";
 
+
+  // localStorage 저장 "시작시간"  
+    const saveStartTime = (startTime) => {
+    localStorage.setItem("start_time", JSON.stringify(startTime));
+    }
+  // localStorage 저장 "종료시간"
+    export const saveEndTime = (endTime) => {
+    localStorage.setItem("end_time", JSON.stringify(endTime));
+    }
+  // localStorage 저장 "총 금액"
+    export const saveMaxPrice = (maxPrice) => {
+    localStorage.setItem("maxPrice", JSON.stringify(maxPrice));
+    }
+  // localStorage 저장 "총 시간"
+    export const saveHourAndMinutes = (hourAndMinutes) => {
+    localStorage.setItem("hourAndMinutes", JSON.stringify(hourAndMinutes));
+    }
+
+
 const ReservesAllDay = ({reservation}) => {
   const [startTime, setStartTime] = useState('00:00'); // 시작 시간관리
   const [endTime, setEndTime] = useState('23:59'); // 종료 시간관리
@@ -16,9 +35,13 @@ const ReservesAllDay = ({reservation}) => {
    //↓↓ 다음 버튼을 클릭했을 때 처리
   const handleClick = ()=>{
     reservation.setSelectStartTime(startTime);
+    saveStartTime(startTime);
     reservation.setSelectEndTime(endTime);
+    saveEndTime(endTime);
     reservation.setSelectTotal(maxPrice);
+    saveMaxPrice(maxPrice);
     reservation.setSelectTime(hourAndMinutes);
+    saveHourAndMinutes(hourAndMinutes);
     navigate('/') //다음페이지로 넘겨주기
   }
   console.log(startTime,endTime,maxPrice,hourAndMinutes);

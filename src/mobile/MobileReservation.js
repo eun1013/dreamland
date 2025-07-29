@@ -36,7 +36,6 @@ const MobileReservation = () => {
     setSelectTotal  
   };
 
-
   return (
     <Routes>
       <Route

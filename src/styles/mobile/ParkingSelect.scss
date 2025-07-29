@@ -1,13 +1,61 @@
 .parking-select{
     max-width: $small-size;
-    height: 100vh;
+    // height: 100vh;
     margin: 0 auto;
     padding: 70px 16px;
     .reserve-notice{
-        span{
-            width: 20px;
-            height: 20px;
-        }
         @include flex-layout();
+        gap: 0.5rem;
+        .notice-icon-wrap{
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            .notice-icon{
+                width: 30px;           
+                height: 30px;
+                border-radius: 50%;     
+                display: flex;          
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                svg{
+                    width: 17px;
+                    height: 17px;
+                }
+            }
+            span{
+                @include font-overline();
+                color: var(--color-graytxt);
+            }
+        }
     }
+    .seat-wrapper{
+        margin: 1.5rem;
+        .seat-grid{
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            padding: 1rem;
+            .seat{
+            &.my-reserve{background-color: #DCD5E8;}
+            &.selected{background-color: #BD6CE3;}
+            &.reserve{background-color: #EFEFEF;}
+            &.available{background-color: #FFFEFF;}
+            border: 1px solid #DCD5E8;
+            text-align: center;
+            padding: 10px;
+            }
+            .seat svg{ width: 100%; }
+        }
+    }
+        button:nth-child(1){
+            @include btn1();
+            background-color: var(--color-secondary);
+            color: var(--color-maintxt);
+            margin-bottom: 1rem;
+            span{ @include font-body-bold();}
+        }
+        button:nth-child(2){
+            @include btn1();
+        }
 }
