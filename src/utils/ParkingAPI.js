@@ -1,10 +1,11 @@
 import { supabase } from "./supabaseClient";
 
 //혹시라도 이해안되시면 설명해드릴테니 편히 말씀주세요!
-// 페이지별로 필요한 것들을 나눠두었습니다! 작업하실때 페이지별로 보고 사용하시면 될 것 같습니다 :) - 정우
 
-/** 회원가입 페이지 */
-/** 1. 로그인 **/ //체크완
+/** 회원가입 페이지 - 정우 */ 
+/** 1. 로그인 **/
+//필요한 정보 : input에 입력된 userID와 password
+
 export const fetchLogin = async (userID,password)=>{
     const { data, error } = await supabase
         .from('users')
@@ -15,7 +16,17 @@ export const fetchLogin = async (userID,password)=>{
     return {data,error};
 }
 
-/** 2. 회원가입 **/ //체크완
+/** 2. 회원가입 **/
+
+//중복된 아이디 확인을 위한 users테이블의  user_id 정보 가져오기
+export const fetchAllUserId = async ()=>{
+    const { data, error } = await supabase
+        .from('users')
+        .select('user_id')
+    return {data,error};
+}
+
+//필요한 정보 : 이름, 아이디, 비밀번호, 차량번호, 휴대폰번호 전부 input value
 export const fetchSignUp = async (
     username,
     userID,
@@ -36,7 +47,8 @@ export const fetchSignUp = async (
     return {success:!error,error};
 }
 
-/** 3. 아이디 찾기 **/ //체크완
+/** 3. 아이디 찾기 **/
+//필요한 정보 : 이름, 휴대폰번호 입력후 일치하는 users정보에서 user_id만 가져오기
 export const findUserId = async (username,phone)=>{
     const { data, error } = await supabase
         .from('users')
@@ -48,6 +60,7 @@ export const findUserId = async (username,phone)=>{
 }
 
 /** 4. 비밀번호 찾기-변경 **/
+//필요한 정보 : 이름,휴대폰,아이디로 해당되는 users정보를 찾아서 새로 입력한 비밀번호로 변경하기
 export const findPassword = async (username,phone,userID,newpass)=>{
     const { data, error } = await supabase
         .from('users')
@@ -59,93 +72,16 @@ export const findPassword = async (username,phone,userID,newpass)=>{
     return {data,error};
 }
 
-{/** 메인페이지 */}
-/** 1. 구역의 잔여석 가져오기 **/
-export const fetchAllZoneStatus = async ()=>{
-    const zones = ['A','B','C','D'];
-    const results = {};
-    //forEach는 await 불가능 // for~of문은 배열의 값의 반복
-    for (const zone of zones) {
-        //해당 구역 전체 자리 수
-        const { count: total } = await supabase
-            .from('parkarea')
-            .select('*',{count:'exact', head:true})
-            .eq('zone',zone);
-        //예약된 자리 수
-        const { count: reserved } = await supabase
-            .from('parkarea')
-            .select('*',{count:'exact',head:true})
-            .eq('zone',zone)
-            .eq('is_reserved',true);
-        results[zone] = { //각 zone에서 해당 값들을 불러올 수 있게 됨.
-            total: total,
-            reserved: reserved,
-            available: total - reserved,
-        };
-    }
-    return results;
-}
-
-
-{/** 예약페이지 */}
-/** 1. 해당 구역의 정보 전부 불러오기 **/
-export const fetchParkArea = async (selectZone)=>{
-    const { data, error } = await supabase
-        .from('parkarea')
-        .select('*')
-        .eq('zone',selectZone)
-        .order('num',{ascending:true})
-    return {data,error};
-}
-
-/** 2. 예약 결제 **/ 
-export const reserveAndPay = async ({
-    userID,
-    parkareaID,
-    startTime,
-    endTime,
-    amount
-})=>{
-    //reservations에 추가
-    const { data, error:reserveError } = await supabase
-        .from('reservations')
-        .insert([{
-            user_id:userID,
-            parkarea_id:parkareaID,
-            start_time:new Date(startTime),
-            end_time:new Date(endTime)
-        }])
-        .select()
-        .single();
-    if( reserveError ){
-            return {date:false, error:reserveError};
-    }
-    //생성될 때 생기는 id
-    const reserveID = data.id;
-    //payments에 추가
-    const { error:payError } = await supabase
-        .from('payments')
-        .insert([{
-            user_id:userID,
-            reservation_id:reserveID,
-            amount:amount
-        }]);
-    if( payError ){
-        return {data:false,error:payError};
-    }
-    //parkarea 상태변경
-    const { error:parkareaError } = await supabase
-        .from('parkarea')
-        .update({is_reserved:true})
-        .eq('id',parkareaID);
-    if( parkareaError ){
-        return {data:false,error:parkareaError};
-    }
-    //update나 insert는 넣거나 바꾸는 것이라 값을 안들고와도되지만 만들어진 reservations의 각 id값은 가져와야하기 때문에 data로 들고옴
-    return {data:reserveID,error:false};
-}
 
 {/** 마이페이지 */}
+=======
+/** 메인페이지 */
+// 예약하기 구역선택 쪽 참고 //
+// 날짜만 오늘 날짜로 설정해서 실시간 업데이트되게 바꾸면 될것같습니다
+
+
+
+
 /** 1. 예약내역확인 **/
 export const fetchMyReserve = async (userID)=>{
     const { data, error } = await supabase
