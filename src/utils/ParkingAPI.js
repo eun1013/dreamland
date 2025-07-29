@@ -74,7 +74,7 @@ export const findPassword = async (username,phone,userID,newpass)=>{
 
 
 {/** 마이페이지 */}
-=======
+
 /** 메인페이지 */
 // 예약하기 구역선택 쪽 참고 //
 // 날짜만 오늘 날짜로 설정해서 실시간 업데이트되게 바꾸면 될것같습니다
