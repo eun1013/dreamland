@@ -48,7 +48,7 @@ const MobilePage = () => {
   },[location.pathname])
   return (
     <div className="mobile-page">
-      <MyPage />
+      {/* <MyPage /> */}
       <HeaderMobile />
       <Routes>
         <Route path="/" element={<MainPageMobile />}/>
