@@ -23,6 +23,7 @@ import { PiWarningCircleFill } from "react-icons/pi";
     localStorage.setItem("hourAndMinutes", JSON.stringify(hourAndMinutes));
     }
 
+    
 const ReservesTime = ({reservation}) => {
   const [startTime, setStartTime] = useState(''); // 시작 시간관리
   const [endTime, setEndTime] = useState(''); // 종료 시간관리
@@ -87,18 +88,65 @@ const ReservesTime = ({reservation}) => {
     }
   }, [startTime, endTime, firstPrice, halfPrice, maxPrice]); //← 안에 있는 값중에 하나라도 바뀌면 다시 계산해라
 
+  // 로컬 스토리지에 저장된 날짜 불러오기 (없으면 오늘 날짜)
+  const today = new Date();
+  const storedDate = localStorage.getItem("selectedDate");
+  const initialDate = storedDate ? new Date(storedDate) : today;
+  const [selectedDate, setSelectDate] = useState(initialDate);
+
+  // 로컬 스토리지에 저장된 구역,자리 불러오기
+  const storedZone = localStorage.getItem("selectedZone");
+  const [selectedZone, setSelectedZone] = useState(storedZone);
+  // const storedZoneSeatID = localStorage.getItem("selectedSeatID");
+  // const [selectedSeatID, setSelectedSeatID] = useState('');
+
+    // 좌석 데이터 가져오기
+  const storedZoneSeatsString = localStorage.getItem("selectedZoneSeats");
+  const storedSeatID = localStorage.getItem("selectedSeatID");
+  
+  // JSON 파싱
+  const parsedZoneSeats = storedZoneSeatsString ? JSON.parse(storedZoneSeatsString) : null;
+  const parsedSeatID = storedSeatID ? JSON.parse(storedSeatID) : null;
+
+  // 상태 설정
+  const [selectedSeatID, setselectedSeatID] = useState(null);
+  const [selectedSeatNum, setSelectedSeatNum] = useState(null);
+
+  // allSeatsData 추출
+  let allSeatsData = [];
+  if (parsedZoneSeats && parsedZoneSeats.allSeatsData) {
+    allSeatsData = parsedZoneSeats.allSeatsData;
+  }
+ // 컴포넌트 마운트 시 좌석 번호 찾기
+  useEffect(() => {
+    // if (selectedSeatID && allSeatsData.length > 0) {
+    //   const foundSeat = allSeatsData.find(seat => seat.id === selectedSeatID);
+    //   if (foundSeat) {
+    //     setSelectedSeatNum(foundSeat.num);
+    //   }
+    // }
+    if(localStorage.getItem("selectedSeatID")){
+      setselectedSeatID(localStorage.getItem("selectedSeatID"));
+    }
+  }, []);
+
+  // 좌석 선택 함수
+  const selectSeats = (seatID) => {
+    const selectedSeat = allSeatsData.find(seat => seat.id === seatID);
+    
+    if(selectedSeat) {
+      setselectedSeatID(seatID);
+      setSelectedSeatNum(selectedSeat.num);
+    } 
+  }
 
   //↓↓ 다음 버튼을 클릭했을 때 처리
   const handleClick = ()=>{
-    reservation.setSelectStartTime(startTime);
     saveStartTime(startTime); // 시작 시간 로컬에 저장
-    reservation.setSelectEndTime(endTime);
     saveEndTime(endTime); // 종료 시간 로컬에 저장
-    reservation.setSelectTotal(total);
     saveTotal(total); // 총 금액 로컬에 저장
-    reservation.setSelectTime(hourAndMinutes);
     saveHourAndMinutes(hourAndMinutes); // 총 시간 로컬에 저장
-    navigate('/') //다음페이지로 넘겨주기
+    navigate('/MobileReservation/payment') //다음페이지로 넘겨주기
   }
 
   return (
@@ -120,8 +168,8 @@ const ReservesTime = ({reservation}) => {
          </div>
       </div>
       <p className="time-date">
-        <FaRegCalendarAlt />  {reservation.selectedDate ? 
-        reservation.selectedDate.toLocaleDateString("ko-KR",{
+        <FaRegCalendarAlt />  {selectedDate ? 
+        selectedDate.toLocaleDateString("ko-KR",{
            year: 'numeric', 
            month: 'long', 
           day: 'numeric',
@@ -133,7 +181,7 @@ const ReservesTime = ({reservation}) => {
       <div className="time-seat">
         <p>선택한자리</p>
         {/* <h1>{selectArea}</h1>   // 정보 받아오면 적용해보기  */}
-        <h1>{reservation.selectedZone} - {reservation.selectSeatID}</h1>
+        <h1>{selectedZone} - {selectedSeatID ? `${selectedSeatID}` : "선택된 좌석이 없습니다"}</h1>
       </div>
       <div className="time-btn">
         <button><GoClockFill /> 시간제</button>

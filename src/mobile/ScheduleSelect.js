@@ -1,26 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import moment from "moment";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import HeaderMobile from "./HeaderMobile";
 import BottomNavBarMobile from "./BottomNavBarMobile";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import "../styles//mobile/CalendarStyle.scss";
 
-const ScheduleSelect = ({ reservation }) => {
+const ScheduleSelect = () => {
   const navigate = useNavigate();
-    const {
-    selectedDate,
-    setSelectedDate
-  } = reservation;
 
+  // 로컬 스토리지에 저장된 날짜 불러오기 (없으면 오늘 날짜)
+  const today = new Date();
+  const storedDate = localStorage.getItem("selectedDate");
+  const initialDate = storedDate ? new Date(storedDate) : today;
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+
+  const maxDate = moment(today).add(30, "days").toDate();
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    localStorage.setItem("selectedDate", date.toISOString());
+  };
 
   const handleReserve = () => {
     navigate("/MobileReservation/floor");
   };
-
-  const today = new Date();
-  const maxDate = moment(today).add(30, "days").toDate();
 
   return (
     <div className="ScheduleSelect">
@@ -30,8 +35,8 @@ const ScheduleSelect = ({ reservation }) => {
       </h2>
 
       <Calendar
-        onChange={(date) => setSelectedDate(date)}
-        value={selectedDate || today}
+        onChange={handleDateChange}
+        value={selectedDate}          // 기본값: 세이브 데이터 or 오늘 날짜
         minDate={today}
         maxDate={maxDate}
         defaultActiveStartDate={today}
@@ -43,7 +48,6 @@ const ScheduleSelect = ({ reservation }) => {
         calendarType="gregory"
         showNeighboringMonth={false}
         formatDay={(locale, date) => moment(date).format("DD")}
-        // 오늘 날짜 밑에 "오늘" 표시
         tileContent={({ date, view }) => {
           if (
             view === "month" &&
