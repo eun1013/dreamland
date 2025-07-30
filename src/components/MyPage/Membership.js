@@ -20,7 +20,7 @@ const Membership = () => {
     };
     localStorage.setItem("park_user", JSON.stringify(updatedUser));
 
-    navigate("/membership-complete")
+    navigate("/mypage/membership-complete")
   }
 
   return (

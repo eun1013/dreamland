@@ -54,7 +54,7 @@ const Cancel = () => {
     // localstorage에 저장된 취소 
     localStorage.removeItem("cancelData");
     localStorage.removeItem("cancelAmount");
-    navigate("/cancel-complete")
+    navigate("/mypage/cancel-complete")
   }
 
   return (

@@ -46,7 +46,7 @@ const ProfileEdit = () => {
       phone: phone,
     };
     localStorage.setItem("park_user", JSON.stringify(updatedUser));
-    navigate("/profile-complete");
+    navigate("/mypage/profile-complete");
   }
 
 

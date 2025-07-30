@@ -14,8 +14,7 @@ const MyPageHome = () => {
   useEffect(()=>{  
       const user_info = getUserInfo();  // 로그인된 정보 가져오기
       setUser(user_info) 
-
-      if( user_info?.id ){
+      if( user_info.id ){
         const fetchData = async () => {  // 내 예약 정보 가져오기
           const {data, error} = await fetchMyReserve(user_info.id);
           if( error ){
@@ -44,7 +43,7 @@ const MyPageHome = () => {
       </div>
 
 
-      <div className="reservation" onClick={()=>{navigate("/reservation")}}>
+      <div className="reservation" onClick={()=>{navigate("reservation")}}>
         <p className="box-title">내 이용 내역</p>
         <div className="reservation-box">
           <div>
@@ -64,7 +63,7 @@ const MyPageHome = () => {
 
       <div className="recently">
         <p className="box-title">최근 예약 내역</p>
-        <div className="recently-box" onClick={()=>{navigate("/reservation")}}>
+        <div className="recently-box" onClick={()=>{navigate("reservation")}}>
           {
             myreserve.slice(0, 2).map((item)=>{
               return (
@@ -89,14 +88,14 @@ const MyPageHome = () => {
       <div className="profile-edit">
         <p className="box-title">내 정보 변경</p>
         <div className="edit-box">
-          <div className="edit-card" onClick={()=>{navigate("/password-check")}}>
+          <div className="edit-card" onClick={()=>{navigate("password-check")}}>
             <FaUserEdit />
             <div className="card-txt">
               <h3>개인정보 변경</h3>
               <p>비밀번호/휴대폰번호/차량번호 변경</p>
             </div>
           </div>
-          <div className="edit-card" onClick={()=>{navigate("/membership")}}>
+          <div className="edit-card" onClick={()=>{navigate("membership")}}>
             <BiSolidDiscount />
             <div className="card-txt">
               <h3>연간회원권 등록</h3>

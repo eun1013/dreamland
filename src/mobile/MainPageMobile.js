@@ -164,7 +164,7 @@ const MainPageMobile = () => {
       <div className="reservation-section">
         <button
           className="reserve-btn"
-          onClick={() => navigate("Mobilereservation/schedule")}
+          onClick={() => navigate("reservation/schedule")}
         >
           <FaCar className="car-icon" />
           주차 예약하기

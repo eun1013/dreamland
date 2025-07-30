@@ -9,7 +9,7 @@ const PasswordCheck = () => {
 
   const handlePasswordCheck = () => {
     if( password === user.password ) {
-      navigate("/profile-edit")
+      navigate("/mypage/profile-edit")
     }
     else { alert("비밀번호가 일치하지 않아요!")}
   }

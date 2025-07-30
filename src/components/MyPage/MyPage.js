@@ -17,7 +17,7 @@ const MyPage = () => {
   const handleCancel = ({ item, amount }) => {
     localStorage.setItem("cancelData", JSON.stringify(item));
     localStorage.setItem("cancelAmount", JSON.stringify(amount));
-    navigate("/cancel");
+    navigate("/mypage/cancel");
   };
 
   return (
