@@ -59,64 +59,67 @@ const Cancel = () => {
 
   return (
     <div id="cancel">
-      <div className="cancel-reserve">
-        <div className="reserve-left">
-          <h1>{SelectCancel.parkarea.zone}-{SelectCancel.parkarea.num}</h1>
-          <p>● 예약 중</p>
+      <div className="cancel-top">
+        <div className="cancel-reserve">
+          <div className="reserve-left">
+            <h1>{SelectCancel.parkarea.zone}-{SelectCancel.parkarea.num}</h1>
+            <p>● 예약 중</p>
+          </div>
+          <div className="reserve-right">
+            <h2>
+              {new Date(SelectCancel.selected_date).toLocaleString("ko-KR", {
+                month: "long",
+                day: "numeric",
+              })}{" "}
+              {result} &nbsp;
+              {SelectCancel.start_time.slice(0, 5)}~
+              {SelectCancel.end_time.slice(0, 5)}
+            </h2>
+            <h3>{SelectAmount.toLocaleString()}원</h3>
+          </div>
+
         </div>
-        <div className="reserve-right">
+        <div className="cancel-confirm">
           <h2>
-            {new Date(SelectCancel.selected_date).toLocaleString("ko-KR", {
-              month: "long",
-              day: "numeric",
-            })}{" "}
-            {result} &nbsp;
-            {SelectCancel.start_time.slice(0, 5)}~
-            {SelectCancel.end_time.slice(0, 5)}
+            예약을 취소하려면
+            <br />
+            약관 동의가 필요해요
           </h2>
-          <h3>{SelectAmount.toLocaleString()}원</h3>
-        </div>
+          <div className="agree-wrap">
+            <label className={`agree-label ${agreements.terms ? "checked" : ""}`}>
+              <input
+                type="checkbox"
+                checked={agreements.terms}
+                onChange={() => handleAgreementChange("terms")}
+              />
+              <span>[필수] 이용 약관 동의</span>
+            </label>
 
+            <label className={`agree-label ${agreements.privacy ? "checked" : ""}`}>
+              <input
+                type="checkbox"
+                checked={agreements.privacy}
+                onChange={() => handleAgreementChange("privacy")}
+              />
+              <span>[필수] 개인정보 수집 및 이용 동의</span>
+            </label>
+
+            <label className={`agree-label ${agreements.cancelPolicy ? "checked" : ""}`}>
+              <input
+                type="checkbox"
+                checked={agreements.cancelPolicy}
+                onChange={() => handleAgreementChange("cancelPolicy")}
+              />
+              <span>[필수] 예약 취소 약관</span>
+            </label>
+          </div>
+          <p>
+            예약을 취소하시면 주차 공간은 다른 고객에게 배정되며, <br />
+            이후 복구나 재예약은 어려울 수 있습니다. <br />
+            <br />위 내용을 확인하고 동의하시겠습니까?
+          </p>
+        </div>
       </div>
-      <div className="cancel-confirm">
-        <h2>
-          예약을 취소하려면
-          <br />
-          약관 동의가 필요해요
-        </h2>
-        <div className="agree-wrap">
-          <label className={`agree-label ${agreements.terms ? "checked" : ""}`}>
-            <input
-              type="checkbox"
-              checked={agreements.terms}
-              onChange={() => handleAgreementChange("terms")}
-            />
-            <span>[필수] 이용 약관 동의</span>
-          </label>
-
-          <label className={`agree-label ${agreements.privacy ? "checked" : ""}`}>
-            <input
-              type="checkbox"
-              checked={agreements.privacy}
-              onChange={() => handleAgreementChange("privacy")}
-            />
-            <span>[필수] 개인정보 수집 및 이용 동의</span>
-          </label>
-
-          <label className={`agree-label ${agreements.cancelPolicy ? "checked" : ""}`}>
-            <input
-              type="checkbox"
-              checked={agreements.cancelPolicy}
-              onChange={() => handleAgreementChange("cancelPolicy")}
-            />
-            <span>[필수] 예약 취소 약관</span>
-          </label>
-        </div>
-        <p>
-          예약을 취소하시면 주차 공간은 다른 고객에게 배정되며, <br />
-          이후 복구나 재예약은 어려울 수 있습니다. <br />
-          <br />위 내용을 확인하고 동의하시겠습니까?
-        </p>
         <div className="btn-wrap">
           <label className={`agree-label ${allChecked ? "checked" : ""}`}>
             <input
@@ -132,7 +135,6 @@ const Cancel = () => {
             onClick={()=>{handleCancel(SelectCancel.id, SelectCancel.parkarea.zone, SelectCancel.parkarea.num)}}
           >취소하기</button>
         </div>
-      </div>
     </div>
   );
 };

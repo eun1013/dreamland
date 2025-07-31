@@ -1,6 +1,6 @@
 .parking-select{
     max-width: $small-size;
-    // height: 100vh;
+    height: 100%;
     margin: 0 auto;
     padding: 70px 16px;
     .reserve-notice{
@@ -14,7 +14,8 @@
                 width: 30px;           
                 height: 30px;
                 border-radius: 50%;     
-                display: flex;          
+                display: flex; 
+                @include flex-layout();         
                 justify-content: center;
                 align-items: center;
                 gap: 0.5rem;
@@ -28,34 +29,136 @@
                 color: var(--color-graytxt);
             }
         }
+      }
+      span {
+        @include font-overline();
+        color: var(--color-graytxt);
+      }
     }
-    .seat-wrapper{
-        margin: 1.5rem;
-        .seat-grid{
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(5,1fr);
-            padding: 1rem;
-            .seat{
-            &.my-reserve{background-color: #DCD5E8;}
-            &.selected{background-color: #BD6CE3;}
-            &.reserve{background-color: #EFEFEF;}
-            &.available{background-color: #FFFEFF;}
-            border: 1px solid #DCD5E8;
-            text-align: center;
-            padding: 10px;
-            }
-            .seat svg{ width: 100%; }
+  }
+  .seat-wrapper {
+    margin: 1.5rem;
+    .seat-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      padding: 1rem;
+      .seat {
+        &.my-reserve {
+          background-color: #dcd5e8;
         }
+        &.selected {
+          background-color: #bd6ce3;
+        }
+        &.reserve {
+          background-color: #efefef;
+        }
+        &.available {
+          background-color: #fffeff;
+        }
+        border: 1px solid #dcd5e8;
+        text-align: center;
+        padding: 10px;
+      }
+      .seat svg {
+        width: 100%;
+      }
     }
-        button:nth-child(1){
-            @include btn1();
-            background-color: var(--color-secondary);
-            color: var(--color-maintxt);
-            margin-bottom: 1rem;
-            span{ @include font-body-bold();}
-        }
-        button:nth-child(2){
-            @include btn1();
-        }
+  }
+
+  //날짜 + 페이지 타이틀
+  .top-wrapper {
+    @include flex-layout(column);
+    height: 90px;
+    gap: 6px;
+    margin: 1.5rem 0;
+    // border: 1px solid #222;
+    .top1 {
+      @include flex-layout(flex-start);
+      @include font-caption();
+      color: var(--color-graytxt);
+      gap: 0.5rem;
+    }
+    .top2 {
+      @include flex-layout(flex-start);
+      gap: 0.5rem;
+    }
+    .calendar-icon {
+      font-size: 1.5rem;
+    }
+    .map-icon {
+      font-size: 2rem;
+      color: var(--color-primary);
+    }
+    h2 {
+      @include font-h2();
+    }
+  }
+
+//페이지 버튼 스타일
+  .select-btn {
+    @include btn1();
+    background-color: var(--color-secondary);
+    color: var(--color-maintxt);
+    margin-bottom: 1rem;
+    span {
+      @include font-body-bold();
+    }
+  }
+  .next-btn {
+    @include btn1();
+  }
+
+//팝업 스타일  
+  .pop {
+    display: none;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+  .pop.active {
+    display: block;
+  }
+  .pop-up {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 342px;
+    min-height: 200px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    .pop-icon{
+      font-size: 48px;
+    }
+    p{
+      @include font-h3();
+    }
+    h4{
+      @include font-body();
+      color: var(--color-graytxt);
+      margin-top: 0.5rem;
+    }  
+    button{
+      width: 100%;
+      height: 40px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      font-size: 1.6rem;
+      font-weight: 600;
+      font-family: inherit;
+      margin-top: 2rem;
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+  }
 }

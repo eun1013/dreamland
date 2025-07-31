@@ -52,7 +52,7 @@ const ProfileEdit = () => {
 
   return (
     <div id="profile-edit">
-        <form className="input-wrap" onSubmit={handleupdateUser}>
+        <form className="input-wrap">
           <h2>변경할 정보를 입력해 주세요</h2>
           <div className="input-box">
             <div className="input-title">
@@ -111,9 +111,8 @@ const ProfileEdit = () => {
               onChange={(e)=>{setCarNum(e.target.value)}}
             />
           </div>
-          <button type="submit">변경 완료</button>
         </form>
-
+        <button onClick={handleupdateUser}>변경 완료</button>
     </div>
   );
 };

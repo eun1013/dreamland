@@ -19,8 +19,11 @@ const ScheduleSelect = () => {
   const maxDate = moment(today).add(30, "days").toDate();
 
   const handleDateChange = (date) => {
+    const newDate = new Date(date.getTime()+ 9* 60 * 60 * 1000)
+      .toISOString()
+      .slice(0,10);
     setSelectedDate(date);
-    localStorage.setItem("selectedDate", date.toISOString());
+    localStorage.setItem("selectedDate", newDate);
   };
 
   const handleReserve = () => {

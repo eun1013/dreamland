@@ -128,6 +128,7 @@ const ReservesTime = ({reservation}) => {
     if(localStorage.getItem("selectedSeatID")){
       setselectedSeatID(localStorage.getItem("selectedSeatID"));
     }
+    window.scrollTo(0,0);
   }, []);
 
   // 좌석 선택 함수
@@ -148,7 +149,7 @@ const ReservesTime = ({reservation}) => {
     saveHourAndMinutes(hourAndMinutes); // 총 시간 로컬에 저장
     navigate('/MobileReservation/payment') //다음페이지로 넘겨주기
   }
-
+  console.log(popUp2);
   return (
     <div className="reserves-time">
       {/* 팝업창1 */}
@@ -167,17 +168,19 @@ const ReservesTime = ({reservation}) => {
         <button onClick={()=>{setPopUp2(false)}}>닫기</button>
          </div>
       </div>
-      <p className="time-date">
-        <FaRegCalendarAlt />  {selectedDate ? 
-        selectedDate.toLocaleDateString("ko-KR",{
-           year: 'numeric', 
-           month: 'long', 
-          day: 'numeric',
-          weekday: 'long'
-        })
-         : "날짜를 선택해주세요"}
-      </p>
-      <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+      <div className="time-title">
+        <p className="time-date">
+          <FaRegCalendarAlt />  {selectedDate ? 
+          selectedDate.toLocaleDateString("ko-KR",{
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            weekday: 'long'
+          })
+          : "날짜를 선택해주세요"}
+        </p>
+        <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+      </div>
       <div className="time-seat">
         <p>선택한자리</p>
         {/* <h1>{selectArea}</h1>   // 정보 받아오면 적용해보기  */}

@@ -3,18 +3,67 @@
   min-height: 100vh;
   margin: 0 auto;
   padding: 70px 0;
-  padding-top: 90px;
-  // padding-top: 35px;
+  padding-top: 70px;
+
+  // 알림메세지
+  .alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .alert-box {
+    @include flex-layout(column, space-between, center);
+    background-color: var(--color-lightgraytxt);
+    color: var(--color-maintxt);
+    width: 60%;
+    height: 20rem;
+    padding: 24px 32px;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    min-width: 260px;
+    svg {
+      font-size: 5rem;
+      color: var(--color-sub);
+    }
+    p {
+      @include font-body-bold;
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      height: 4rem;
+      margin-top: 1rem;
+      border: none;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      border-radius: 1rem;
+      cursor: pointer;
+      &:hover {
+        filter: brightness(80%);
+      }
+    }
+  }
 
   // 지도 부분
   .zone-map {
     width: 100%;
-    padding: 16px;
+    padding: 37px 16px 20px 16px;
     background-color: rgba($color: #dcd5e8, $alpha: 0.1);
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-
+    @include flex-layout(column, center, center);
+    gap: 15px;
+    > * {
+      width: 100%;
+    }
     @keyframes spin {
       from {
         transform: rotate(0deg);
@@ -25,7 +74,7 @@
     }
     .top-info {
       @include flex-layout(row, space-between);
-
+      padding: 0 10px;
       .left {
         @include flex-layout();
         gap: 7px;
@@ -33,6 +82,7 @@
           p {
             @include font-caption;
             color: var(--color-graytxt);
+            margin-bottom: 3px;
           }
           h3 {
             @include font-h3;
@@ -45,6 +95,7 @@
           .redo-btn {
             width: 30px;
             height: 30px;
+            margin-top: 5px;
             text-align: center;
             line-height: 30px;
             border-radius: 50%;
@@ -74,7 +125,7 @@
       padding: 16px;
       .zone-title {
         @include flex-layout(row, left);
-        gap: 8px;
+        gap: 3px;
         color: #6e3d84;
         svg {
           font-size: 2rem;
@@ -83,6 +134,7 @@
           @include font-body-bold;
         }
         span {
+          margin-left: 5px;
           color: rgba($color: #6e3d84, $alpha: 0.3);
           @include font-caption;
         }
@@ -93,11 +145,13 @@
         gap: 10px;
         margin-top: 10px;
         .zone {
-          padding: 16px;
+          @include flex-layout(column, center, flex-end);
+          padding: 12px 15px;
           background-color: var(--color-white);
           border-radius: 16px;
           .top {
-            @include flex-layout(row, space-between);
+            width: 100%;
+            @include flex-layout(row, space-between, center);
             h2 {
               @include flex-layout();
               @include font-h2;
@@ -123,6 +177,9 @@
               @include font-caption;
               color: var(--color-maintxt);
               margin-right: 5px;
+              &:nth-last-child(1) {
+                margin: 0;
+              }
             }
             .num {
               @include flex-layout();
@@ -142,7 +199,7 @@
     .normal-zone {
       @include flex-layout(row, space-between, center);
       background-color: rgba($color: #dcd5e8, $alpha: 0.2);
-      padding: 16px;
+      padding: 20px;
       border-radius: 16px;
       .zone-left {
         @include flex-layout(column, left, left);
@@ -171,6 +228,9 @@
             @include font-caption;
             color: var(--color-maintxt);
             margin-right: 5px;
+            &:nth-last-child(1) {
+              margin: 0;
+            }
           }
           .num {
             @include flex-layout();

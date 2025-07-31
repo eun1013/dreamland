@@ -1,3 +1,4 @@
+import userEvent from "@testing-library/user-event";
 import { supabase } from "./supabaseClient";
 
 //혹시라도 이해안되시면 설명해드릴테니 편히 말씀주세요!
@@ -298,11 +299,21 @@ export const loadZoneSeats = async (selectZone,selectDate,userID)=>{
 // id는 localStorage에서 가지고오기
 
 // 연간회원권 할인
-export const fetchYearlyPass = async (id)=>{
+export const fetchYearlyPass = async (uid)=>{
     const { data, error } = await supabase
         .from('users')
         .select('yearly_pass')
-        .eq('id',id)
+        .eq('id',uid)
+    return {data,error};
+}
+
+//parkarea_id 불러오기
+export const fetchParkID = async (zone, num)=>{
+    const { data, error } = await supabase
+        .from('parkarea')
+        .select('id')
+        .eq('zone',zone)
+        .eq('num',num)
     return {data,error};
 }
 
@@ -314,16 +325,16 @@ export const registerReservation = async ({
     startTime,
     endTime
 })=>{
-    // 중복된 자리 확인
-    const { data:existing } = await supabase
-        .from('reservations')
-        .select('id')
-        .eq('parkarea_id',parkareaID)
-        .eq('selected_date',selectDate)
-        .eq('status','active')
-    if(existing && existing.length > 0){
-        return { data: null, error:new Error("이미 예약된 자리입니다")};
-    }
+    // // 중복된 자리 확인
+    // const { data:existing } = await supabase
+    //     .from('reservations')
+    //     .select('id')
+    //     .eq('parkarea_id',parkareaID)
+    //     .eq('selected_date',selectDate)
+    //     .eq('status','active')
+    // if(existing && existing.length > 0){
+    //     return { data: null, error:new Error("이미 예약된 자리입니다")};
+    // }
     //reservations에 추가
     const { error } = await supabase
         .from('reservations')
@@ -370,4 +381,15 @@ export const reservedAreaUpdate = async (parkareaID)=>{
         .update({is_reserved:true})
         .eq('id',parkareaID);
     return {error};
+}
+
+//예약번호 가져오기
+export const fetchReserveID = async (userID,parkID,date)=>{
+    const { data, error } = await supabase
+        .from('reservations')
+        .select('id')
+        .eq('user_id',userID)
+        .eq('parkarea_id',parkID)
+        .eq('selected_date',date)
+    return {data,error};
 }

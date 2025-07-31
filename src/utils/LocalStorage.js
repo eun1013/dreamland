@@ -14,3 +14,19 @@ export const getUserInfo = ()=>{
 export const deleteUserInfo = ()=>{
     localStorage.removeItem("park_user");
 }
+
+
+export const savePaymentInfo = (obj)=>{
+    const saved = JSON.stringify(obj);
+    localStorage.setItem("payment",saved);
+}
+
+export const getPaymentInfo = ()=>{
+    const saved = JSON.parse(localStorage.getItem("payment"));
+    return saved;
+}
+
+export const getFinalAmountInfo = ()=>{
+    const saved = JSON.parse(localStorage.getItem("payment"));
+    return saved;
+}

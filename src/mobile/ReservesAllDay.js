@@ -5,7 +5,6 @@ import { PiWarningFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleFill } from "react-icons/pi";
 
-
   // localStorage 저장 "시작시간"  
     const saveStartTime = (startTime) => {
     localStorage.setItem("start_time", JSON.stringify(startTime));
@@ -74,6 +73,7 @@ const ReservesAllDay = ({reservation}) => {
     if(localStorage.getItem("selectedSeatID")){
       setselectedSeatID(localStorage.getItem("selectedSeatID"));
     }
+    window.scrollTo(0,0);
   }, []);
 
   // 좌석 선택 함수
@@ -92,7 +92,7 @@ const ReservesAllDay = ({reservation}) => {
     saveEndTime(endTime);
     saveTotal(total);
     saveHourAndMinutes(hourAndMinutes);
-    // navigate('/') //다음페이지로 넘겨주기
+    navigate('/MobileReservation/payment') //다음페이지로 넘겨주기
   }
 
   const selectDay = (()=>{
@@ -113,17 +113,19 @@ const ReservesAllDay = ({reservation}) => {
         <button onClick={()=>{setPopUp(false)}}>닫기</button>
          </div>
       </div>
-      <p className="day-date">
-        <FaRegCalendarAlt />  {selectedDate ? 
-        selectedDate.toLocaleDateString("ko-KR",{
-           year: 'numeric', 
-           month: 'long', 
-          day: 'numeric',
-          weekday: 'long'
-        })
-         : "날짜를 선택해주세요"}
-       </p>
-      <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+      <div className="day-title">
+        <p className="day-date">
+          <FaRegCalendarAlt />  {selectedDate ? 
+          selectedDate.toLocaleDateString("ko-KR",{
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            weekday: 'long'
+          })
+          : "날짜를 선택해주세요"}
+        </p>
+        <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+      </div>
       <div className="day-seat">
         <p>선택한자리</p>
         <h1>{selectedZone} - {selectedSeatID ? `${selectedSeatID}` : "선택된 좌석이 없습니다"}</h1>

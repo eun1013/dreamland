@@ -1,41 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import BottomNavBarMobile from "./BottomNavBarMobile";
 import MainHeaderMobile from "./MainHeaderMobile";
 
+import { ReactComponent as Parking } from "../icons/Parking.svg";
 import { FaCar, FaMapMarkerAlt, FaRedoAlt } from "react-icons/fa";
 import { HiTicket, HiInformationCircle } from "react-icons/hi";
 import { FaCaretRight } from "react-icons/fa";
-// import { ReactComponent as Parking } from "..icons/Parking.svg";
+import { PiWarningCircleFill } from "react-icons/pi";
 
 import { getAllseatsByDate } from "../utils/ParkingAPI";
+import { getUserInfo } from "../utils/LocalStorage"; // 로그인 확인
 import Footer from "./Footer";
-
-// 잔여석에 따른 혼잡도 상태 반환
-const getParkingStatus = (remaining) => {
-  if (remaining >= 10) {
-    return { dotClass: "status-green", textClass: "text-green", label: "여유" };
-  } else if (remaining >= 4) {
-    return {
-      dotClass: "status-yellow",
-      textClass: "text-yellow",
-      label: "보통",
-    };
-  } else if (remaining >= 0) {
-    return { dotClass: "status-red", textClass: "text-red", label: "혼잡" };
-  }
-  return {
-    dotClass: "status-gray",
-    textClass: "text-gray",
-    label: "정보 없음",
-  };
-};
 
 const MainPageMobile = () => {
   const navigate = useNavigate();
   const [zoneData, setZoneData] = useState({}); // A,B,C,D 데이터 저장
   const [isSpinning, setIsSpinning] = useState(false); // 아이콘 회전 상태
+  const [loginCheck, setLoginCheck] = useState(null); // 로그인 체크
+  const [showAlert, setShowAlert] = useState(false); // 알림 모달 상태
 
   const now = new Date();
   const formatted = now.toLocaleString("ko-KR", {
@@ -46,6 +29,30 @@ const MainPageMobile = () => {
     minute: "2-digit",
     hour12: true,
   });
+
+  // 잔여석에 따른 혼잡도 상태 반환
+  const getParkingStatus = (remaining) => {
+    if (remaining >= 10) {
+      return {
+        dotClass: "status-green",
+        textClass: "text-green",
+        label: "여유",
+      };
+    } else if (remaining >= 4) {
+      return {
+        dotClass: "status-yellow",
+        textClass: "text-yellow",
+        label: "보통",
+      };
+    } else if (remaining >= 0) {
+      return { dotClass: "status-red", textClass: "text-red", label: "혼잡" };
+    }
+    return {
+      dotClass: "status-gray",
+      textClass: "text-gray",
+      label: "정보 없음",
+    };
+  };
 
   const fetchData = async () => {
     const today = new Date().toISOString().split("T")[0];
@@ -68,17 +75,38 @@ const MainPageMobile = () => {
 
   useEffect(() => {
     fetchData();
+    window.scrollTo(0,0);
+  }, []);
+
+  const handleProtectedNav = (path) => {
+    if (loginCheck) {
+      navigate(path);
+    } else {
+      setShowAlert(true); // 로그인 안 되어 있으면 알림창 띄움
+    }
+  };
+
+  useEffect(() => {
+    setLoginCheck(getUserInfo()); // 로그인 상태 체크
   }, []);
 
   return (
     <div id="main-page">
       <MainHeaderMobile />
-
+      {showAlert && (
+        <div className="alert-overlay">
+          <div className="alert-box">
+            <PiWarningCircleFill />
+            <p>로그인을 먼저 해주세요.</p>
+            <button onClick={() => setShowAlert(false)}>확인</button>
+          </div>
+        </div>
+      )}
       <div className="zone-map">
         {/* 상단 날짜 및 새로고침 */}
         <div className="top-info">
           <div className="left">
-            <img src={`${process.env.PUBLIC_URL}/images/Parking.svg`} alt="icon" />
+            <Parking className="parking-icon" />
             <div className="date-info">
               <p>{formatted}</p>
               <h3>드림랜드 실시간 주차 현황</h3>
@@ -164,28 +192,31 @@ const MainPageMobile = () => {
       <div className="reservation-section">
         <button
           className="reserve-btn"
-          onClick={() => navigate("MobileReservation/schedule")}
+          onClick={() => handleProtectedNav("MobileReservation/schedule")}
         >
           <FaCar className="car-icon" />
           주차 예약하기
         </button>
 
         <div className="info-buttons">
-          <button className="info-btn" onClick={() => navigate("/")}>
+          <button className="info-btn" onClick={() => navigate("/information")}>
             <HiInformationCircle className="icon" />
             주차 안내
           </button>
-          <button className="info-btn" onClick={() => navigate("/")}>
+          <button
+            className="info-btn"
+            onClick={() => handleProtectedNav("mypage/reservation")}
+          >
             <HiTicket className="icon" />내 예약 내역
           </button>
         </div>
 
-        <div className="more-info" onClick={() => navigate("/")}>
+        <div className="more-info" onClick={() => navigate("/information")}>
           더 많은 정보 보기
           <FaCaretRight className="icon" />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

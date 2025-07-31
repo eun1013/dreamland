@@ -1,12 +1,14 @@
 #profile-edit {
   max-width: $small-size;
   margin: 0 auto;
-  padding: 70px 16px 0px 16px;
+  padding: 70px 16px;
+  @include flex-layout(column, space-between, center);
   .input-wrap {
-    margin-bottom: 8rem;
+    // margin-bottom: 8rem;
     @include flex-layout(column, flex-start, flex-start);
     gap: 2rem;
     width: 100%;
+    padding-top: 35px;
     h2 {
       padding: 10px;
       @include font-h2();
@@ -38,10 +40,10 @@
         }
       }
     }
-    button {
-      @include btn1();
-      margin-top: 50px;
-    }
+  }
+  button {
+    @include btn1();
+    margin-top: 50px;
   }
 }
 

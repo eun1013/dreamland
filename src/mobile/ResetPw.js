@@ -58,7 +58,12 @@ const ResetPw = ({ID}) => {
                             />
                 </div>
                 <div className="re-set-repass">
-                    <label>비밀번호 재확인</label>
+                    <div className="label-correct">
+                        <label>비밀번호 재확인</label>
+                    {
+                        showPass && <p className={`reset-pass ${passColor}`}>{correct ? "비밀번호가 일치해요!" : "비밀번호가 일치하지 않습니다"}</p>
+                    }
+                    </div>
                     <input 
                         type="password"
                         value={rePass}
@@ -70,9 +75,6 @@ const ResetPw = ({ID}) => {
                 </div>
                 <button type="submit" onClick={handleChangePw}>다음</button>
             </form>
-            {
-                showPass && <p className={`reset-pass ${passColor}`}>{correct ? "비밀번호가 일치해요!" : "비밀번호가 일치하지 않습니다"}</p>
-            }
         </div>
     );
 };

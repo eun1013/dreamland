@@ -5,7 +5,7 @@ const SignUpComplete = () => {
     const navigate = useNavigate();
     return (
         <div id="complete-signup">
-            <div className="complete">
+            <div className="complete-ment">
                 <IoIosCheckmarkCircle className="check-sign"/>
                 <h2>회원가입이 완료되었어요</h2>
             </div>

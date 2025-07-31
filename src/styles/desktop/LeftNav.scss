@@ -1,0 +1,107 @@
+.left-nav {
+  position: fixed;
+  top: 0;
+  left: calc(50% - 250px - 300px);
+  width: 250px;
+  height: 100vh;
+  z-index: 1000;
+
+  @include flex-layout(column, space-between, flex-end);
+  padding: 20px 0;
+
+  .top {
+    width: 175px;
+    .logo {
+      cursor: pointer;
+      margin-bottom: 3rem;
+      img {
+        width: 100px;
+        height: auto;
+      }
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      li {
+        width: 100%;
+        @include font-body-bold;
+        @include flex-layout(row,flex-start,center);
+        gap: 10px;
+        padding: 12px 20px;
+        color: var(--color-graytxt);
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: var(--color-primary);
+        }
+
+        .icon {
+          font-size: 28px;
+        }
+      }
+      .active li {
+          color: var(--color-primary);
+        }
+    }
+  }
+
+  .dreamland-info {
+    width: 175px;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      .title {
+       @include font-overline;  
+        color: var(--color-maintxt);
+        padding: 10px 0;
+      }
+      .arrow {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 8px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        &.up {
+          border-top: 6px solid var(--color-graytxt);
+        }
+        &.down {
+          border-bottom: 6px solid var(--color-graytxt);
+        }
+      }
+    }
+
+    .details {
+      padding: 8px 0;
+      @include font-overline;
+      color: var(--color-graytxt);
+    }
+
+    .icon-list{
+      @include flex-layout();
+      gap: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-lightgraytxt);
+      li{
+        background-color: var(--color-lightgraytxt) !important;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        cursor: pointer;
+        @include flex-layout();
+
+        svg{
+          font-size: 2rem;
+          path{
+            fill: var(--color-white);
+          }
+        }
+      }
+    }
+  }
+}

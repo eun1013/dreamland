@@ -1,8 +1,8 @@
-import "../styles/mobile/IconTitle.scss";
-import IconTitle from "./IconTitle";
 import { useEffect, useState } from "react";
 import { getAllseatsByDate, loadZoneSeats } from "../utils/ParkingAPI";
 import { useNavigate } from "react-router-dom";
+import { PiWarningCircleFill } from "react-icons/pi";
+import { FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
 
 // 전체 구성 순서 요약
 // - 선택한 날짜 selectedDate 가져오기 (localStorage)
@@ -22,24 +22,43 @@ import { useNavigate } from "react-router-dom";
 const FloorSelect = ({ userID }) => {
   const navigate = useNavigate();
 
+  //팝업
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showMsg, setShowMsg] = useState(false);
+
   //1. selectedDate를 localStorage에서 가져와서 selectedDate로 저장
   const storedDate = localStorage.getItem("selectedDate");
   const selectedDate = storedDate ? new Date(storedDate) : null;  
 
+  // 날짜 문자열 포맷 함수
+  const getDate = (date) => {
+    if (!date) return "";
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekday = date.toLocaleDateString("ko-KR", { weekday: "long" });
+    return `${year}년 ${month}월 ${day}일 ${weekday}`;
+  };
 
   //2. 저장된 날짜가 없으면 alert창 띄우고, 날짜 선택 페이지로 이동
   useEffect(() => {
     if (!selectedDate) {
-    alert("날짜 정보가 없습니다. 예약 날짜를 다시 선택해주세요.");
+      setErrorMsg("잔여석 정보를 불러오는데 실패했습니다");
+      setShowMsg(true);
     navigate("/MobileReservation/schedule");
     }
   }, []);
 
 
   //3. 상태와 로컬스토리지 연결(선택한 구역, 구역 자리 정보)
-  const [selectedZone, setSelectedZone] = useState(() => {
-    return localStorage.getItem("selectedZone") || "";
-  });
+  const [selectedZone, setSelectedZone] = useState("");
+  useEffect(()=>{
+    const state = localStorage.getItem("selectedZone");
+    if( state && zones.includes(state) ){
+      setSelectedZone(state);
+    }
+  },[]);
+
   //LocalStorage에서 기존 값이 있으면 그걸 불러오고, 없으면 빈 값으로 시작
   const [selectedZoneSeats, setSelectedZoneSeats] = useState(()=>{
     const saved = localStorage.getItem("selectedZoneSeats");
@@ -50,6 +69,22 @@ const FloorSelect = ({ userID }) => {
   const [zoneStatus, setZoneStatus] = useState({});
   // const [selectedZone, setSelectedZone] = useState(""); //구역 정보 관리(A,B,C,D)
   const zones = ["A", "B", "C", "D"]; //구역 선택용 배열
+
+  // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 이전 값 가져오기
+  useEffect(() => {
+    const storedZone = localStorage.getItem("selectedZone");
+    if (storedZone) {
+      setSelectedZone(storedZone); // 이전에 선택한 구역을 다시 설정
+    }
+  }, []);
+
+  // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 이전 값 가져오기
+  useEffect(() => {
+    const storedZone = localStorage.getItem("selectedZone");
+    if (storedZone) {
+      setSelectedZone(storedZone); // 이전에 선택한 구역을 다시 설정
+    }
+  }, []);
 
  // selectedZone 상태 변경 시 로컬스토리지 저장
   useEffect(() => {
@@ -65,10 +100,12 @@ const FloorSelect = ({ userID }) => {
   //4. 구역별 정보를 가져오는 함수(자리보여주기)_성공시 로컬스토리지에 저장
   const listArea = async (selectZone,selectDate,userID) => { 
     setSelectedZone(selectZone);
+      console.log("setSelectedZone to", selectZone);
     const { data, error } = await loadZoneSeats(selectZone, selectDate, userID);
     if (error) {
-      alert("주차 자리 정보 불러오기 실패");
+      setErrorMsg("주차 자리 정보 불러오기 실패");
       setSelectedZoneSeats([data.allSeatsData]);
+      setShowMsg(true);
       return;
     }
     setSelectedZoneSeats(data);
@@ -93,7 +130,8 @@ const FloorSelect = ({ userID }) => {
     //날짜 잔여석 요청
       const { success, data, error } = await getAllseatsByDate(realDate);
       if( !success || error ){
-        alert("잔여석 정보를 불러오는데 실패했습니다");
+        setErrorMsg("잔여석 정보를 불러오는데 실패했습니다");
+        setShowMsg(true);
         return;
       }
       //잔여석을 불러오는데 성공 시 상태를 저장
@@ -116,73 +154,95 @@ const FloorSelect = ({ userID }) => {
 
   //7. ParkingSelect 페이지로 넘어가는 버튼 함수
   const nextbtn = () => {
-    //만약에 구역이 선택이 안되면
-    if (!selectedZone) {
-      alert("구역을 선택해주세요");
+    console.log("selectedZone:", selectedZone);
+  // console.log("selectedZone at nextbtn:", selectedZone, typeof selectedZone);    
+    if ( !selectedZone || !zones.includes(selectedZone) ) {
+      setErrorMsg("구역을 선택하세요");
+      setShowMsg(true)
       return;
     }
     navigate("/MobileReservation/parking");
   };
 
 
+
   return (
     <div className="floor-select">
+      <div className="floor-wrap-top">
+        <div className="top-zone">
+          <div className="top-wrapper">
+            <div className="top1">
+              <FaRegCalendarAlt className="calendar-icon" />
+              <p>{selectedDate ? getDate(selectedDate) : "날짜를 선택해주세요"}</p>
+            </div>
+            <div className="top2">
+              <FaMapMarkerAlt className="map-icon" />
+              <h2>이용 구역 선택</h2>
+            </div>
+          </div>
 
-      <div className="top-zone">
-        <IconTitle title="이용 구역 선택" selectedDate={selectedDate}/>
-        <p className="zone-name">사전 결제 ZONE</p>
+          <p className="zone-name">사전 결제 ZONE</p>
 
-        {/* //zones 배열 abcd를 순회하며 list로 받아옴*/}
-        <div className="zone-wrap">
-        {zones.map((list) => {
-          //상태 변수 : 각 배열 정보가 담김(아직 데이터가 없으면 0처리)
-          const status = zoneStatus[list] || {
-            total: 0,
-            reserved: 0,
-            available: 0,
-          };
-          return (
-
-            <ul className="zone-select" >
-              {/* 버튼을 클릭하면 해당 구역의 정보(배열)가 불러와지고, 총수와 잔여석 표기 */}
-              <li
-                key={list}
-                onClick={() => { listArea(list, realDate, userID) }}>
-                <div><span>{list}</span>구역</div> 
-                <div>
-                  <p>잔여석<span>{status.available}</span>/25</p>
-                  <p><span className={`status-dot ${getZoneStateLabel(list)}`}></span>
-                    {getZoneStateLabel(list)}
-                  </p>
-                </div>
-              </li>
+          {/* //zones 배열 abcd를 순회하며 list로 받아옴*/}
+          <div className="zone-wrap">
+            <ul>     
+              {zones.map((list) => {
+                const status = zoneStatus[list] || { total: 0, reserved: 0, available: 0 };
+                return (
+                  <li
+                    key={list}
+                    className={`zone-select ${selectedZone === list ? "on" : ""}`}
+                    onClick={() => listArea(list, realDate, userID)}
+                  >
+                    <div><span>{list}</span>구역</div> 
+                    <div>
+                      <p>잔여석<span>{status.available}</span>/25</p>
+                      <p>
+                        <span className={`status-dot ${getZoneStateLabel(list)}`}></span>
+                        {getZoneStateLabel(list)}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
-          );
-        })}
         </div>
 
-        <div className="price-info">
-          <p className="price-title">요금 안내</p>
-          <ul className="price-detail">
-            <li>
-              <span>최소 1시간</span>
-              <span>2,000원</span>
-            </li>
-            <li>
-              <span>이후 30분당</span>
-              <span>1,000원</span>
-            </li>
-            <li>
-              <span>일 최대 요금</span>
-              <span>15,000원</span>
-            </li>  
-          </ul>
-        </div>  
-
+          <div className="price-info">
+            <p className="price-title">요금 안내</p>
+            <ul className="price-detail">
+              <li>
+                <span>최소 1시간</span>
+                <span>2,000원</span>
+              </li>
+              <li>
+                <span>이후 30분당</span>
+                <span>1,000원</span>
+              </li>
+              <li>
+                <span>일 최대 요금</span>
+                <span>15,000원</span>
+              </li>  
+            </ul>
+          </div>  
+        </div>
+      </div>
+      <div className="floor-wrap-bottom">
         <button className="next-btn" onClick={nextbtn}>
           다음으로
         </button>
       </div>
+
+      <div className={`pop ${showMsg ? "active" : ''}`}>
+        <div className="pop-up">
+          <p className="pop-icon"><PiWarningCircleFill size={48} color="#DCD5E8"/></p>
+          <p>{errorMsg}</p>
+          <h4>다른 구역을 선택해주세요</h4>
+          <button onClick={() => setShowMsg(false)}>확인</button>
+        </div>
+      </div>
+      
+
     </div>
   );
 };

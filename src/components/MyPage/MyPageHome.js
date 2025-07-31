@@ -28,86 +28,88 @@ const MyPageHome = () => {
       }
   }, [])
 
-  const handleLogout = () => {  // 로그아웃 함수
+  const handleLogout = () => {
     deleteUserInfo();
-    navigate("/");
-  }
+    window.location.href = "/"; // ✅ 강제 새로고침
+};
 
 
   return (
     <div id="mypage-home">
-      
-      <div className="user">
-        <h1>{user.name}</h1>
-        <h2>님 안녕하세요!</h2>
-      </div>
-
-
-      <div className="reservation" onClick={()=>{navigate("reservation")}}>
-        <p className="box-title">내 이용 내역</p>
-        <div className="reservation-box">
-          <div>
-            <p>이용 중</p>
-            <h1>{myreserve.filter(r => r.status === '').length}</h1>
+      <div className="mypage-home-wrap">
+        <div className="mypage-content-wrap">
+          <div className="user">
+            <h1>{user.name}</h1>
+            <h2>님 안녕하세요!</h2>
           </div>
-          <div>
-            <p>예약</p>
-            <h1>{myreserve.filter(r => r.status === 'active').length}</h1>
-          </div>
-          <div>
-            <p>예약 취소</p>
-            <h1>{myreserve.filter(r => r.status === 'canceled').length}</h1>
-          </div>
-        </div>
-      </div>
 
-      <div className="recently">
-        <p className="box-title">최근 예약 내역</p>
-        <div className="recently-box" onClick={()=>{navigate("reservation")}}>
-          {
-            myreserve.slice(0, 2).map((item)=>{
-              return (
-                <div className={item.status === 'canceled' ? 'canceled' : 'reserved'} key={item.id}>
-                  <p>
-                      {new Date(item.selected_date).toLocaleString("ko-KR", {
-                        month: "long",
-                        day: "numeric",
-                        weekday: "long",
-                      })} &nbsp;
-                      {item.start_time.slice(0,5)}~{item.end_time.slice(0,5)}
-                  </p>
-                  { item.status === 'canceled' ? <p>● 예약 취소</p> : <p>● 예약 중</p> }
+          <div className="reservation" onClick={()=>{navigate("reservation")}}>
+            <p className="box-title">내 이용 내역</p>
+            <div className="reservation-box">
+              <div>
+                <p>이용 중</p>
+                <h1>{myreserve.filter(r => r.status === '').length}</h1>
+              </div>
+              <div>
+                <p>예약</p>
+                <h1>{myreserve.filter(r => r.status === 'active').length}</h1>
+              </div>
+              <div>
+                <p>예약 취소</p>
+                <h1>{myreserve.filter(r => r.status === 'canceled').length}</h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="recently">
+            <p className="box-title">최근 예약 내역</p>
+            <div className="recently-box" onClick={()=>{navigate("reservation")}}>
+              {
+                myreserve.slice(0, 2).map((item)=>{
+                  return (
+                    <div className={item.status === 'canceled' ? 'canceled' : 'reserved'} key={item.id}>
+                      <p>
+                          {new Date(item.selected_date).toLocaleString("ko-KR", {
+                            month: "long",
+                            day: "numeric",
+                            weekday: "long",
+                          })} &nbsp;
+                          {item.start_time.slice(0,5)}~{item.end_time.slice(0,5)}
+                      </p>
+                      { item.status === 'canceled' ? <p>● 예약 취소</p> : <p>● 예약 중</p> }
+                    </div>
+                  )
+                })
+              }
+
+            </div>
+          </div>
+
+          <div className="profile-edit">
+            <p className="box-title">내 정보 변경</p>
+            <div className="edit-box">
+              <div className="edit-card" onClick={()=>{navigate("password-check")}}>
+                <FaUserEdit />
+                <div className="card-txt">
+                  <h3>개인정보 변경</h3>
+                  <p>비밀번호/휴대폰번호/차량번호 변경</p>
                 </div>
-              )
-            })
-          }
-
-        </div>
-      </div>
-
-      <div className="profile-edit">
-        <p className="box-title">내 정보 변경</p>
-        <div className="edit-box">
-          <div className="edit-card" onClick={()=>{navigate("password-check")}}>
-            <FaUserEdit />
-            <div className="card-txt">
-              <h3>개인정보 변경</h3>
-              <p>비밀번호/휴대폰번호/차량번호 변경</p>
-            </div>
-          </div>
-          <div className="edit-card" onClick={()=>{navigate("membership")}}>
-            <BiSolidDiscount />
-            <div className="card-txt">
-              <h3>연간회원권 등록</h3>
-              <p>연간회원권 등록 시 할인이 적용돼요</p>
+              </div>
+              <div className="edit-card" onClick={()=>{navigate("membership")}}>
+                <BiSolidDiscount />
+                <div className="card-txt">
+                  <h3>연간회원권 등록</h3>
+                  <p>연간회원권 등록 시 할인이 적용돼요</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="logout" onClick={handleLogout}>
-        <p>로그아웃</p>
-        <IoLogOutOutline />
+        <div className="logout" onClick={handleLogout}>
+          <p>로그아웃</p>
+          <IoLogOutOutline />
+        </div>
       </div>
     </div>
   );

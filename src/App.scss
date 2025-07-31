@@ -9,7 +9,6 @@
 @import "./styles/MyPage/ProfileEdit.scss";
 
 @import "./styles/mobile/FloorSelect.scss";
-@import "./styles/mobile/IconTitle.scss";
 @import "./styles/mobile/ParkingSelect.scss";
 @import "./styles/mobile/MainPageMobile.scss";
 @import "./styles/mobile/MainHeaderMobile.scss";
@@ -17,5 +16,10 @@
 @import "./styles/mobile/BottomNavBarMobile.scss";
 @import "./styles/mobile/Footer.scss";
 @import "./styles/mobile/ScheduleSelect.scss";
-@import "./styles/mobile/ReservesAllDay.scss";
-@import "./styles/mobile/ReservesTime.scss";
+@import "./styles/mobile/Login.scss";
+@import "./styles/mobile/Information.scss";
+
+@import "./styles/desktop/MainPageD.scss";
+@import "./styles/desktop/Layout.scss";
+@import "./styles/desktop/LeftNav.scss";
+@import "./styles/desktop/RightNav.scss";

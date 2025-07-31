@@ -2,6 +2,8 @@ import { RiYoutubeFill } from "react-icons/ri";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 
+import { ReactComponent as DLlogo } from "../icons/DreamLand_logo2.svg";
+
 const Footer = () => {
   return (
     <div id="footer">
@@ -20,7 +22,7 @@ const Footer = () => {
       </div>
       <div className="line"></div>
       <div className="footer-bottom">
-        <img src={`${process.env.PUBLIC_URL}/images/DreamLand_logo2.svg`} alt="logo" 
+        <DLlogo
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}/>
         <ul className="icon-list">
           <li><RiYoutubeFill /></li>

@@ -5,10 +5,10 @@ import DesktopPage from "./pages/DesktopPage";
 import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
-  const [isMobile,setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile,setIsMobile] = useState(window.innerWidth <= 1024);
   useEffect(()=>{
     const handleSize = ()=>{
-      setIsMobile( window.innerWidth <= 768 );
+      setIsMobile( window.innerWidth <= 1024 );
     }
     handleSize();
     window.addEventListener("resize",handleSize);

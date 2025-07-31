@@ -1,110 +1,212 @@
 .floor-select {
-    max-width: $small-size;
-    height: 100vh;
-    margin: 0 auto;
-    padding: 70px 0;
-    text-align: center;
+  max-width: $small-size;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 70px 0; 
+  text-align: center;
+  @include flex-layout(column, space-between, center);
+  .floor-wrap-top {
+    width: 100%;
+    padding-top: 10px;
+  }
   .top-zone {
-    .zone-name{
+    width: 100%;
+    .zone-name {
       text-align: center;
       @include font-body-bold;
       color: var(--color-graytxt);
-      background-color: #F8F7FA;
+      background-color: #f8f7fa;
       padding: 2rem;
     }
     .zone-wrap {
-      background-color: #F8F7FA;
-      @include flex-layout();
-      flex-wrap: wrap;
-      gap: 2rem;
-      padding-bottom: 2rem;
-
-      .zone-select {
-        width: 170px;
-        height: 112px;
-        background-color: var(--color-white);
-        border: 1px solid var(--color-sub);
-        border-radius: 1.6rem;
-        // padding: 3rem 4rem;
-        text-align: center;
-        @include flex-layout();
-        cursor: pointer;
-        &:hover{
-          background-color: var(--color-primary);
-          color: var(--color-white);
-        }
-        div:nth-child(1) {
-          margin-bottom: 1rem;
-          @include font-body-bold();
-          span{
-            @include font-h1();
+      padding: 0 16px;
+      background-color: #f8f7fa;
+      ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: (2, auto);
+        gap: 1.5rem;
+        padding-bottom: 3rem;
+        .zone-select {
+          @include flex-layout(column,  flex-end, center);
+          background-color: var(--color-white);
+          border: 1px solid var(--color-sub);
+          border-radius: 1.6rem;
+          height: 112px;
+          padding: 16px 20px;
+          text-align: center;
+          cursor: pointer;
+          &:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
           }
-        }
-        div:nth-child(2) {
-          @include flex-layout(space-between);
-          gap: 1rem;
-          span {
+  
+          &.on {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+  
+            // 상태 점 색상도 바꾸고 싶으면 아래처럼
+            .status-dot {
+              background-color: var(--color-white);
+            }
+          }
+  
+          div:nth-child(1) {
+            margin-bottom: 1rem;
             @include font-body-bold();
+            span {
+              @include font-h1();
+            }
           }
-          .status-dot{
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
+          div:nth-child(2) {
+            width: 100%;
+            @include flex-layout(row, space-between, center);
+            gap: 1rem;
+            @include font-caption();
+            span {
+              @include font-body-bold();
+              margin: 0 3px;
+            }
+            .status-dot {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              margin-right: 5px;
+            }
+            .쾌적 {
+              background-color: green;
+            }
+            .여유 {
+              background-color: #ffd078;
+            }
+            .혼잡 {
+              background-color: #ff7171;
+            }
           }
-          .쾌적{
-            background-color: green;
-          }
-          .여유{
-            background-color: #FFD078;
-          }
-          .혼잡{
-            background-color: #FF7171;
-          }
-
         }
       }
     }
-    .price-info{
-      .price-title{
+    .price-info {
+      .price-title {
         text-align: center;
         @include font-body-bold;
         color: var(--color-graytxt);
         padding: 1rem;
-        padding-top: 5rem;
+        padding-top: 2rem;
       }
-      .price-detail{
-        border: 1px solid #ccc; 
+      .price-detail {
+        border: 1px solid #ccc;
         border-radius: 1rem;
         margin: 0 2rem;
-        @include font-body();               
-        li{
+        @include font-body();
+        li {
           @include flex-layout(space-between);
           // padding: 0.75rem 0;
           border-bottom: 1px solid #ccc;
           // gap: 2rem;
-          
-          &:last-child{ border-bottom: none;}
-          span{
+
+          &:last-child {
+            border-bottom: none;
+          }
+          span {
             flex: 1;
             padding: 1rem;
             text-align: center;
 
             &:first-child {
               border-right: 1px solid #ccc;
-              background-color: #F8F7FA;
+              background-color: #f8f7fa;
               @include font-body-bold();
             }
           }
         }
       }
     }
+
+//날짜 + 페이지 타이틀
+    .top-wrapper {
+    @include flex-layout(column);
+    height: 90px;
+    gap: 6px;
+    // margin: 1rem 0;
+    // border: 1px solid #222;
+    .top1 {
+      @include flex-layout(flex-start);
+      @include font-caption();
+      color: var(--color-graytxt);
+      gap: 0.5rem;
+    }
+    .top2 {
+      @include flex-layout(flex-start);
+      gap: 0.5rem;
+    }
+    .calendar-icon{ font-size: 1.5rem; }
+    .map-icon { font-size: 2rem; color: var(--color-primary) }
+    h2 { @include font-h2(); }
   }
-  .next-btn{
+}
+.floor-wrap-bottom {
+  width: 100%;
+  padding: 0 16px;
+  .next-btn {
     @include btn1();
-    width: 90%;
-    margin: 0 auto;
-    margin-top: 4rem;
+    width: 100%;
+    // margin: 0 auto;
   }
+}
+
+
+//팝업 스타일  
+  .pop {
+    display: none;
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
   }
+  .pop.active {
+    display: block;
+  }
+  .pop-up {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 342px;
+    min-height: 200px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    .pop-icon{
+      font-size: 48px;
+    }
+    p{
+      @include font-h3();
+    }
+    h4{
+      @include font-body();
+      color: var(--color-graytxt);
+      margin-top: 0.5rem;
+    }  
+    button{
+      width: 100%;
+      height: 40px;
+      border: none;
+      border-radius: 8px;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      font-size: 1.6rem;
+      font-weight: 600;
+      font-family: inherit;
+      margin-top: 2rem;
+      &:hover {
+        filter: brightness(85%);
+      }
+    }
+  }
+}

@@ -1,13 +1,14 @@
 .reserves-day{ 
     max-width: $small-size;
     height: 100%;
-    margin: 70px auto;
-    padding: 0 16px;
+    margin: 0 auto;
+    padding: 100px 16px;
+    padding-bottom: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: 1.5rem;
     position: relative;
     .pop{
         width: 100%;
@@ -58,19 +59,23 @@
     p{
        @include font-caption();
     }
-    h2{
-        @include font-h2;
-        span{
-            svg{
-                color: var(--color-primary);
+    .day-title {
+        @include flex-layout(column, center, center);
+        gap: 6px;
+        .day-date{
+            color: var(--color-graytxt);
+        }
+        h2{
+            @include font-h2;
+            span{
+                svg{
+                    color: var(--color-primary);
+                }
             }
         }
     }
-    .day-date{
-        color: var(--color-graytxt);
-    }
     .day-seat{
-        width: 90%;
+        width: 100%;
         height: 6rem;
         background-color: var(--color-lightgraytxt);
         color:var(--color-maintxt);
@@ -87,7 +92,7 @@
         }
     }
     .day-btn{
-        width: 90%;
+        width: 100%;
         margin: 2rem auto;
         display:flex;
         align-items: center;
@@ -182,6 +187,6 @@
     }
     .day-nextBtn{
         @include btn1;
-        width: 95%;
+        width: 100%;
     }
 }

@@ -1,14 +1,14 @@
 .ScheduleSelect {
   max-width: $small-size;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0 auto;
   padding: 70px 16px;
-  @include flex-layout(column, space-between);
+  @include flex-layout(column, space-between, center);
   .title{
     @include flex-layout();
     @include font-h2;
-    margin: 2rem 0;
-    gap: 5px;
+    padding-top: 60px;
+    gap: 1rem;
     svg{
       path{
         color: var(--color-primary);

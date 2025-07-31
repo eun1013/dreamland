@@ -1,31 +1,33 @@
 import  { useEffect, useState } from "react"; 
 import { useNavigate } 
 from "react-router-dom";
-import IconTitle from "./IconTitle";
 import { FaCarSide } from "react-icons/fa6";
 import SeatIcon from "./SeatIcon";
+import { FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
+import { PiWarningCircleFill } from "react-icons/pi";
+import HeaderMobile from "./HeaderMobile";
 
 // 전체 구성 순서 요약
-// - 로컬스토리지에서 selectedZone과 selectedZoneSeats 가져오기
-// - selectedZone, selectedZoneSeats, selectSeatID 상태 관리
-// - 좌석 예약 상태 확인 함수 정의
-// - 좌석 클릭 시 선택 처리 (handleSeatClick)
-// - 좌석 색상 결정 함수 (getSeatColor)
-// - 좌석을 3개 구간으로 나누기
-// - 예약 가능 여부 안내 (noticeItems)
-// - 좌석 배경 색상 결정 함수 (getSeatBackgroundColor)
-// - nextbtn 버튼 클릭 시 선택된 좌석을 확인하고 Time 페이지로 이동
-// - 선택된 자리 버튼 표시
+// 1. 로컬스토리지에서 selectedZone, selectedZoneSeats, selectedSeatID 불러오기
+// 2. 상태 관리: selectedZone, selectedZoneSeats, selectSeatID
+// 3. 좌석 예약 상태 확인 함수 정의 (isReserved, isMyReserved)
+// 4. 좌석 클릭 시 선택 처리 (handleSeatClick)
+// 5. 좌석 색상 결정 함수 (getSeatColor)
+// 6. 좌석을 3개 구간으로 나누기 (oneRow, twoRow, threeRow)
+// 7. 예약 가능 여부 안내용 UI 아이템 정의 (noticeItems)
+// 8. 좌석 배경 색상 결정 함수 (getSeatBackgroundColor)
+// 9. 다음 버튼 클릭 시 선택된 좌석 체크 및 페이지 이동 (nextbtn)
+// 10. 선택된 좌석 번호 추출 및 표시 (selectedSeat, displayNum)
 
 
-//로컬스토리지에서 selectedDate 가져오기
 const ParkingSelect = ({  }) => {
-  // selectedZone selectedZoneSeats selectedID 상태 관리
+
+  // 2. 상태 선언
   const [selectedZone, setSelectedZone] = useState("");
   const [selectedZoneSeats, setSelectedZoneSeats] = useState([]);
   const [selectSeatID, setSelectSeatID] = useState(null);
 
-   // 2. 로컬스토리지에서 데이터 가져오기
+  // 1. 로컬스토리지에서 데이터 불러오기
   useEffect(() => {
     const parkZone = localStorage.getItem("selectedZone");
     const parkSeats = localStorage.getItem("selectedZoneSeats");
@@ -35,7 +37,7 @@ const ParkingSelect = ({  }) => {
       setSelectedZone(parkZone);
       setSelectedZoneSeats(JSON.parse(parkSeats));
 
-    if( selectedSeat ){
+    if( setSelectSeatID ){
       setSelectSeatID(parseInt(selectedSeatID, 10)); //선택한 좌석 유지(숫자로 변환)
     }
     }
@@ -46,22 +48,33 @@ const ParkingSelect = ({  }) => {
   const storedDate = localStorage.getItem("selectedDate");
   const selectedDate = storedDate ? new Date(storedDate) : null;  
 
-  // 3. 예약 상태 확인
+  // 날짜 문자열 포맷 함수
+  const getDate = (date) => {
+    if (!date) return "";
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekday = date.toLocaleDateString("ko-KR", { weekday: "long" });
+    return `${year}년 ${month}월 ${day}일 ${weekday}`;
+  };
+
+  // 2-1. 예약 상태 정보 구조 분해 (초기값 설정)
   const { allSeatsData = [], reserveID = [], myReserved = [] } = selectedZoneSeats || {};
 
+  // 3. 예약 상태 확인 함수
   const isReserved = (seat) => reserveID.includes(seat.id); //reserveID는 이미 예약된 좌석을 의미, seat_id가 reserveID 안에 있는지 확인(있으면 true)
   const isMyReserved = (seat) => myReserved.includes(seat.id); //myReserved는 내가 예약한 좌석을 의미, seat_id가 myReserved는 안에 있는지 확인(있으면 true)
 
-  // 예약이 가능한 seat만 선택이 되게 하는 함수(예약중, 예약불가능은 클릭 안됨)
+  // 4. 예약이 가능한 seat만 선택이 되게 하는 함수(예약중, 예약불가능은 클릭 안됨)
   const handleSeatClick = (seat) => {
     // console.log("seat ID:", seat.id);
     if (!seat.is_reserved) {
       setSelectSeatID(seat.id);
-      localStorage.setItem("selectedSeatID", seat.id.toString()); //선택된 좌석을 로컬스토리지에 저장
+      localStorage.setItem("selectedSeatID", seat.num.toString()); //선택된 좌석을 로컬스토리지에 저장
     }
   };
 
-  // 4. 좌석 색상 함수
+  // 5. 좌석 색상 함수
   const getSeatColor = (seat) => {
     // console.log("Selected Seat ID:", selectSeatID);
     if (isMyReserved(seat)) return "#ffffff"; //내 예약 색상
@@ -70,7 +83,7 @@ const ParkingSelect = ({  }) => {
     return "#BD6CE3"; //예약 가능 색상
   };
 
-  // 5. seat 3개 구간으로 나누기
+  // 6. seat 3개 구간으로 나누기
   const oneRow = allSeatsData.filter((seat) => {
     return seat.num >= 1 && seat.num <= 10;
   });
@@ -81,7 +94,7 @@ const ParkingSelect = ({  }) => {
     return seat.num >= 21 && seat.num <= 25;
   });
 
-  // 6. 상단 예약 가능 여부 안내 변수
+  // 7. 상단 예약 가능 여부 안내 변수
   const noticeItems = [
     { label: "예약 불가능", backgroundColor:"#EFEFEF", color: "#DDDDDD"},
     { label: "예약 가능", backgroundColor:"#FFFEFF", color: "#BD6CE3", border: "1px solid #BAB6C3"},
@@ -89,7 +102,7 @@ const ParkingSelect = ({  }) => {
     { label: "현재 선택", backgroundColor:"#BD6CE3", color: "#FFF098"},
   ];
 
-  // 7. svg아이콘 색상용 함수
+  // 8. svg아이콘 색상용 함수
   const getSeatBackgroundColor = (seat)=>{
     if (isMyReserved(seat)) return "my-reserve"; //내 예약 색상
     if (seat.id === selectSeatID) return "selected"; //현재 선택한 색상
@@ -99,16 +112,28 @@ const ParkingSelect = ({  }) => {
   
   const navigate = useNavigate();
 
-  // 8. reserveTime페이지로 넘어가는 다음으로 버튼
+  // 9. reserveTime페이지로 넘어가는 다음으로 버튼
   const nextbtn = () => {
     if (!selectSeatID) {
-      alert("주차 자리를 선택해주세요");
+      setErrorMsg("주차 자리를 선택해주세요");
+      setShowMsg(true);
       return;
     }
     navigate("/MobileReservation/Time")
   }
 
-// 9. 선택된 자리 버튼
+  //팝업
+  const [errorMsg, setErrorMsg] = useState("");
+  const [showMsg, setShowMsg] = useState(false);
+  
+  const handleBackConfirm =()=>{
+    const confirm = window.confirm("예매를 취소하고 나가시겠습니까?")
+    if( confirm ){
+      navigate("/MobileReservation/floor")
+    }
+  }
+
+// 10. 선택된 자리 버튼
 // allSeatsData에서 해당 좌석을 찾아
 // 사용자에게 보여줄 num(좌석 번호)을 따로 추출함
   const selectedSeat = allSeatsData.find( (seat)=>{
@@ -122,7 +147,16 @@ const ParkingSelect = ({  }) => {
 // console.log("myReserved:", myReserved);
   return (
     <div className="parking-select">
-      <IconTitle title={`${selectedZone}구역 주차 자리 선택`} selectedDate={selectedDate}/>
+      <div className="top-wrapper">
+        <div className="top1">
+          <FaRegCalendarAlt className="calendar-icon" />
+          <p>{getDate(selectedDate)}</p>
+        </div>
+        <div className="top2">
+          <FaMapMarkerAlt className="map-icon" />
+          <h2>{selectedZone}구역 주차 자리 선택</h2>
+        </div>
+      </div>
 
       <div className="reserve-notice">
         {noticeItems.map(({label, backgroundColor, color, border}, idx)=>{
@@ -137,31 +171,44 @@ const ParkingSelect = ({  }) => {
       </div>
 
 {/* 3개 구간 나눈 변수를 map으로 뿌려주기 */}
-    <div className="seat-wrapper">
-      {[oneRow, twoRow, threeRow].map((row, idx) => {
-        return (
-          <div className="seat-grid" key={idx}>
-            {row.map((seat) => {
-// console.log(seat.num, getSeatBackgroundColor(seat));
-              return (
-                <div
-                  key={seat.id}
-                  className={`seat ${getSeatBackgroundColor(seat)}`}
-                  onClick={() => { handleSeatClick(seat)}}
-                  >
-                  <SeatIcon color={getSeatColor(seat)}/>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
-    </div>
-
+      <div className="seat-wrapper">
+        {[oneRow, twoRow, threeRow].map((row, idx) => {
+          return (
+            <div className="seat-grid" key={idx}>
+              {row.map((seat) => {
+    // console.log(seat.num, getSeatBackgroundColor(seat));
+                return (
+                  <div
+                    key={seat.id}
+                    className={`seat ${getSeatBackgroundColor(seat)}`}
+                    onClick={() => { handleSeatClick(seat)}}
+                    >
+                    <SeatIcon color={getSeatColor(seat)}/>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
       <div>
-        <button> <span>선택한 자리</span> {selectedZone}-{displayNum}</button>
+        <button className="select-btn"> <span>선택한 자리</span> {selectedZone}-{displayNum}</button>
         <button className="next-btn" onClick={nextbtn}> 다음으로 </button>
       </div>
+
+{/* 팝업 메시지 창 */}
+      {showMsg && (
+        <div className="pop active">
+          <div className="pop-up">
+            <p className="pop-icon">
+              <PiWarningCircleFill size={48} color="#DCD5E8" />
+            </p>
+            <p>{errorMsg}</p>
+            <h4>좌석을 선택하고 진행해주세요</h4>
+            <button onClick={() => setShowMsg(false)}>확인</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

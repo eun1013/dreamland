@@ -15,6 +15,7 @@ import FindIDNo1 from "../mobile/FindIDNo1";
 import FindPW from "../mobile/FindPW";
 import ResetPw from "../mobile/ResetPw";
 import ChangedPw from "../mobile/ChangedPw";
+import Information from "../mobile/Information";
 
 
 const MobilePage = () => {
@@ -44,6 +45,8 @@ const MobilePage = () => {
       }
     } else if(path.includes("/MobileReservation")){
       setNameOfPage('예약하기')
+    }else if(path.includes("/information")){
+      setNameOfPage('사이트 정보')
     }
   },[location.pathname])
   return (
@@ -62,6 +65,7 @@ const MobilePage = () => {
         <Route path="/findpw" element={<FindPW setID={setId}/>}/>
         <Route path="/findpw/resetpw" element={<ResetPw ID={id}/>}/>
         <Route path="/findpw/changedpw" element={<ChangedPw/>}/>
+        <Route path="/information" element={<Information/>}/>
         <Route path="MobileReservation/*" element={<MobileReservation />}/>
       </Routes>
       <BottomNavBarMobile/>
