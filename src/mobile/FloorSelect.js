@@ -41,13 +41,12 @@ const FloorSelect = ({ userID }) => {
   };
 
   //2. 저장된 날짜가 없으면 alert창 띄우고, 날짜 선택 페이지로 이동
-  useEffect(() => {
-    if (!selectedDate) {
-      setErrorMsg("잔여석 정보를 불러오는데 실패했습니다");
-      setShowMsg(true);
-    navigate("/MobileReservation/schedule");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!selectedDate) {
+  //     setErrorMsg("잔여석 정보를 불러오는데 실패했습니다");
+  //     setShowMsg(true);
+  //   }
+  // }, []);
 
 
   //3. 상태와 로컬스토리지 연결(선택한 구역, 구역 자리 정보)
@@ -154,10 +153,9 @@ const FloorSelect = ({ userID }) => {
 
   //7. ParkingSelect 페이지로 넘어가는 버튼 함수
   const nextbtn = () => {
-    console.log("selectedZone:", selectedZone);
+    // console.log("selectedZone:", selectedZone);
   // console.log("selectedZone at nextbtn:", selectedZone, typeof selectedZone);    
     if ( !selectedZone || !zones.includes(selectedZone) ) {
-      setErrorMsg("구역을 선택하세요");
       setShowMsg(true)
       return;
     }
@@ -233,16 +231,18 @@ const FloorSelect = ({ userID }) => {
         </button>
       </div>
 
-      <div className={`pop ${showMsg ? "active" : ''}`}>
-        <div className="pop-up">
-          <p className="pop-icon"><PiWarningCircleFill size={48} color="#DCD5E8"/></p>
-          <p>{errorMsg}</p>
-          <h4>다른 구역을 선택해주세요</h4>
-          <button onClick={() => setShowMsg(false)}>확인</button>
-        </div>
-      </div>
-      
-
+      {
+        showMsg && (
+          <div className="no-zone-selected">
+            <div className="no-zone-box">
+              <PiWarningCircleFill />
+              <p>구역이 선택되지 않았습니다</p>
+              <p className="no-zone-bot">구역 선택 후 이용해 주세요 </p>
+              <button onClick={() => setShowMsg(false)}>확인</button>
+            </div>
+          </div>
+        )
+      }
     </div>
   );
 };

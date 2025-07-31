@@ -4,12 +4,16 @@
   max-width: $small-size;
   margin: 0 auto;
   height: 100%;
+
 }
 
 
 #mypage-home {
   height: 100vh;
   padding: 70px 0;
+  @include desktop {
+    padding: 0;
+  }
   .mypage-home-wrap {
     height: 100%;
     padding: 0 16px;

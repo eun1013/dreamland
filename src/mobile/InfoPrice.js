@@ -1,11 +1,12 @@
 import { PiWarningCircleFill, PiWarningFill } from "react-icons/pi";
+import { ReactComponent as Parking } from "../icons/Parking.svg";
 
 const InfoPrice = () => {
   return (
-    <div className="info-price" style={{backgroundImage: "url('/images/info-background.png')"}}>
+    <div className="info-price">
       <div className="price-content">
         <div className="content-title">
-          <img src={`${process.env.PUBLIC_URL}/images/Parking.svg`} alt="icon" />
+          <Parking alt="icon" />
           <h3>주차 요금</h3>
         </div>
         <img src={`${process.env.PUBLIC_URL}/images/info-price.png`} />
@@ -15,6 +16,7 @@ const InfoPrice = () => {
           <p>입차 후 20분 이내 출차 시 무료예요</p>
         </div>
       </div>
+      <img src={`${process.env.PUBLIC_URL}/images/info-background.png`}/>
     </div>
   );
 };

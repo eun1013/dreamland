@@ -2,10 +2,11 @@
   max-width: $small-size;
   min-height: 100vh;
   margin: 0 auto;
+  margin-top: 50px;
   // padding-top: 35px;
 
     // 알림메세지
-  .alert-overlay {
+    .alert-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -30,6 +31,7 @@
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     min-width: 260px;
+    max-width: 400px;
     svg {
       font-size: 5rem;
       color: var(--color-sub);
@@ -37,6 +39,10 @@
     p {
       @include font-body-bold;
       text-align: center;
+      &.alert-bot{
+        @include font-caption();
+        color: var(--color-graytxt);
+      }
     }
     button {
       width: 100%;

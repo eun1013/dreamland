@@ -4,28 +4,38 @@ import { getUserInfo } from "../utils/LocalStorage";
 import { useNavigate } from "react-router-dom";
 
 const RightNav = () => {
-const navigate = useNavigate();
-  const [loginCheck,setLoginCheck] = useState(null);
-  useEffect(()=>{
+  const navigate = useNavigate();
+  const [loginCheck, setLoginCheck] = useState(null);
+  useEffect(() => {
     setLoginCheck(getUserInfo());
-  },[])
+  }, []);
 
   return (
     <div className="right-bar">
-      <div className="user-info" onClick={() => navigate(loginCheck ? "/mypage" : "/login")}>
-          {
-            loginCheck ? 
-            <>
-            <p>{loginCheck.name}<span>님</span></p>
+      <div
+        className="user-info"
+        onClick={() => navigate(loginCheck ? "/mypage" : "/login")}
+      >
+        {loginCheck ? (
+          <>
+            <p>
+              {loginCheck.name}
+              <span>님</span>
+            </p>
             <div className="user-icon">
-            <FaUserLarge />
+              <FaUserLarge />
             </div>
-            </> : <p>로그인</p>
-          }
-        </div>
+          </>
+        ) : (
+          <p>로그인</p>
+        )}
+      </div>
 
       <div className="card-wrap">
-        <div className="card-top">
+        <div
+          className="card-top"
+          onClick={() => navigate("/mypage/membership")}
+        >
           <div className="card-title">
             <p className="title-sub">연간회원권 보유 시</p>
             <div className="title-main">
@@ -34,7 +44,7 @@ const navigate = useNavigate();
             </div>
           </div>
           <div className="img-area">
-            <img src={`${process.env.PUBLIC_URL}/images/info_coupon.png`}/>
+            <img src={`${process.env.PUBLIC_URL}/images/info_coupon.png`} />
           </div>
         </div>
 
@@ -47,7 +57,9 @@ const navigate = useNavigate();
             </p>
             <p className="qr-sub">QR코드를 스캔해보세요</p>
           </div>
-          <div className="qr-box" />
+          <div className="qr-box">
+            <img src={`${process.env.PUBLIC_URL}/images/QR.jpg`} alt="QR코드" />
+          </div>
         </div>
       </div>
     </div>

@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 70px 16px;
   @include flex-layout(column, space-between, center);
+  @include desktop {
+    padding: 0;
+  }
   .input-wrap {
     // margin-bottom: 8rem;
     @include flex-layout(column, flex-start, flex-start);

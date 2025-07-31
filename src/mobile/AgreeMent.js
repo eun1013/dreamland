@@ -34,7 +34,7 @@ const AgreeMent = () => {
     const [opened,setOpened] = useState(null);
 
     //동의가 완료되지않음 state관리
-    const [agreeNeed,setagreeNeed] = useState(false);
+    const [agreeNeed,setAgreeNeed] = useState(false);
 
     //체크가 반드시 되어야하는 필수 항목
     const allRequiredCheck = checked[0] && checked[1] && checked[2]; //1~3번까지
@@ -63,7 +63,7 @@ const AgreeMent = () => {
             navigate("/signup");
         }
         if(!allRequiredCheck){
-            setagreeNeed(true);
+            setAgreeNeed(true);
         }
     }
     
@@ -109,9 +109,9 @@ const AgreeMent = () => {
                     <div className="agree-popup">
                         <div className="center-pop">
                             <PiWarningCircleFill className="warning-sign"/>
-                            <h3>필수 약관에 동의해 주세요</h3>
-                            <p>동의하지 않으면 가입이 어렵습니다</p>
-                            <button onClick={()=>{setagreeNeed(false)}}>확인</button>
+                            <p>필수 약관에 동의해 주세요</p>
+                            <p className="agree-bot">동의하지 않으면 가입이 어렵습니다</p>
+                            <button onClick={()=>{setAgreeNeed(false)}}>확인</button>
                         </div>
                     </div>
                 )

@@ -1,14 +1,16 @@
 #information {
   max-width: $small-size;
   margin: 0 auto;
-  height: 100%;
+  min-height: calc(100vh - 70px);
   padding: 70px 0;
+  @include desktop {
+    padding: 0;
+  }
   ul {
     @include flex-layout(row, flex-start, center);
     gap: 25px;
     padding: 0 25px;
     margin-top: 30px;
-    // border-bottom: 2px solid var(--color-lightgraytxt);
     li {
       @include font-h3();
       height: 40px;
@@ -22,10 +24,10 @@
   // ----- map -----
   .info-map {
     background-color: #f8f7fa;
-    padding: 28px;
-    padding-bottom: 87px;
     .map-content {
       border-radius: 16px;
+      padding: 28px;
+      padding-bottom: 0;
       img {
         width: 100%;
       }
@@ -33,9 +35,9 @@
   }
   // ----- price -----
   .info-price {
-    padding: 35px 25px;
-    padding-bottom: 150px;
     .price-content {
+      padding: 35px 25px;
+      padding-bottom: 0;
       @include flex-layout(column, center, flex-start);
       gap: 20px;
       .content-title {
@@ -63,38 +65,42 @@
   // ----- how -----
   .info-how {
     background-color: #f8f7fa;
-    padding: 35px 0;
-    padding-bottom: 100px;
-    .how-title {
-      @include font-h3();
-      @include flex-layout(row, flex-start, center);
-      gap: 10px;
-      padding-left: 35px;
-      svg {
-        font-size: 4rem;
-        color: var(--color-primary);
-      }
-    }
-    ul {
-      @include flex-layout(column, center, center);
-      gap: 15px;
-      li {
-        width: 100%;
-        height: 65px;
-        padding: 0 30px;
+    .info-wrap {
+      width: 100%;
+      padding: 35px 0;
+        padding-bottom: 0;
+      .how-title {
+        @include font-h3();
         @include flex-layout(row, flex-start, center);
-        gap: 15px;
-        background-color: var(--color-white);
-        border-radius: 16px;
-        @include font-body-bold();
-        p {
-          color: var(--color-graytxt);
+        gap: 10px;
+        padding-left: 35px;
+        svg {
+          font-size: 4rem;
+          color: var(--color-primary);
         }
-        &:nth-last-of-type(1) {
-          box-shadow: 0 0 20px 0 rgba(220, 213, 232, 0.7);
-          h3 {
-            @include font-h3();
-            color: #6e3d84;
+      }
+      ul {
+        @include flex-layout(column, center, center);
+        width: 100%;
+        gap: 15px;
+        li {
+          width: 100%;
+          height: 65px;
+          padding: 0 30px;
+          @include flex-layout(row, flex-start, center);
+          gap: 15px;
+          background-color: var(--color-white);
+          border-radius: 16px;
+          @include font-body-bold();
+          p {
+            color: var(--color-graytxt);
+          }
+          &:nth-last-of-type(1) {
+            box-shadow: 0 0 20px 0 rgba(220, 213, 232, 0.7);
+            h3 {
+              @include font-h3();
+              color: #6e3d84;
+            }
           }
         }
       }
@@ -104,8 +110,11 @@
 .info-map,
 .info-price,
 .info-how {
+  height: fit-content;
+  max-height: calc(100vh - 70px);
   background-color: #f8f7fa;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
+  @include flex-layout(column, space-between, center);
+  img {
+    width: 100%;
+  }
 }

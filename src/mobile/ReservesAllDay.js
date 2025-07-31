@@ -126,7 +126,7 @@ const ReservesAllDay = ({reservation}) => {
           })
           : "날짜를 선택해주세요"}
         </p>
-        <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+        <h2><GoClockFill /> 이용시간 선택</h2>
       </div>
       <div className="day-seat">
         <p>선택한자리</p>

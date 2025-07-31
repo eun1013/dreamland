@@ -143,31 +143,45 @@ const ReservesTime = ({reservation}) => {
 
   //↓↓ 다음 버튼을 클릭했을 때 처리
   const handleClick = ()=>{
+    if(!startTime || !endTime || !total || !hourAndMinutes){
+      setPopUp1(true);
+      return;
+    }
     saveStartTime(startTime); // 시작 시간 로컬에 저장
     saveEndTime(endTime); // 종료 시간 로컬에 저장
     saveTotal(total); // 총 금액 로컬에 저장
     saveHourAndMinutes(hourAndMinutes); // 총 시간 로컬에 저장
     navigate('/MobileReservation/payment') //다음페이지로 넘겨주기
   }
-  console.log(popUp2);
+  console.log(popUp1);
   return (
     <div className="reserves-time">
       {/* 팝업창1 */}
-      <div className={`pop ${popUp1 ? "active" : ''}`}>
-        <div className="pop-up">
-        <p><PiWarningCircleFill /></p>
-        <p>결제를 처리할 수 없습니다</p>
-        <button onClick={()=>{setPopUp1(false)}}>닫기</button>
-         </div>
-      </div>
-         {/* 팝업창2 */}
-      <div className={`pop ${popUp2 ? "active" : ''}`}>
-        <div className="pop-up">
-        <p><PiWarningCircleFill /></p>
-      <p>종료 시간은<br/>시작 시간 이후로 설정해주세요!</p>
-        <button onClick={()=>{setPopUp2(false)}}>닫기</button>
-         </div>
-      </div>
+      {
+        popUp1 && (
+          <div className="no-time-pop">
+            <div className="no-time-box">
+              <PiWarningCircleFill />
+              <p>시간이 선택되지 않았습니다</p>
+              <p className="no-time-bot">시간선택 후 이용해 주세요</p>
+              <button onClick={() => setPopUp1(false)}>확인</button>
+            </div>
+          </div>
+        )
+      }
+      {/* 팝업창2 */}
+      {
+        popUp2 && (
+          <div className="wrong-time-pop">
+            <div className="wrong-time-box">
+              <PiWarningCircleFill />
+              <p>종료시간이 시작시간보다 이릅니다</p>
+              <p className="wrong-time-bot">시간을 재선택 해 주세요 </p>
+              <button onClick={() => setPopUp2(false)}>확인</button>
+            </div>
+          </div>
+        )
+      }
       <div className="time-title">
         <p className="time-date">
           <FaRegCalendarAlt />  {selectedDate ? 
@@ -179,7 +193,7 @@ const ReservesTime = ({reservation}) => {
           })
           : "날짜를 선택해주세요"}
         </p>
-        <h2><span><GoClockFill /></span> 이용시간 선택</h2>
+        <h2><GoClockFill /> 이용시간 선택</h2>
       </div>
       <div className="time-seat">
         <p>선택한자리</p>
@@ -252,7 +266,6 @@ const ReservesTime = ({reservation}) => {
       {total === maxPrice && <p className="time-max">일 최대 요금이 적용되었습니다.</p>}
       <button 
       onClick={handleClick}
-      disabled={total<= 0}
       className="time-nextBtn"
       >다음으로</button>
     </div>
