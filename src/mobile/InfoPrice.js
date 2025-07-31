@@ -1,5 +1,6 @@
 import { PiWarningCircleFill, PiWarningFill } from "react-icons/pi";
 
+
 const InfoPrice = () => {
   return (
     <div className="info-price" style={{backgroundImage: "url('/images/info-background.png')"}}>
