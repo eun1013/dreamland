@@ -68,21 +68,13 @@ const FloorSelect = ({ userID }) => {
   // const [selectedZone, setSelectedZone] = useState(""); //구역 정보 관리(A,B,C,D)
   const zones = ["A", "B", "C", "D"]; //구역 선택용 배열
 
-  // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 이전 값 가져오기
-  useEffect(() => {
-    const storedZone = localStorage.getItem("selectedZone");
-    if (storedZone) {
-      setSelectedZone(storedZone); // 이전에 선택한 구역을 다시 설정
-    }
-  }, []);
-
-  // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 이전 값 가져오기
-  useEffect(() => {
-    const storedZone = localStorage.getItem("selectedZone");
-    if (storedZone) {
-      setSelectedZone(storedZone); // 이전에 선택한 구역을 다시 설정
-    }
-  }, []);
+  // // 컴포넌트가 처음 마운트될 때 로컬스토리지에서 이전 값 가져오기
+  // useEffect(() => {
+  //   const storedZone = localStorage.getItem("selectedZone");
+  //   if (storedZone) {
+  //     setSelectedZone(storedZone); // 이전에 선택한 구역을 다시 설정
+  //   }
+  // }, []);
 
   // selectedZone 상태 변경 시 로컬스토리지 저장
   useEffect(() => {

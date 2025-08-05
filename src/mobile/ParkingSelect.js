@@ -73,7 +73,7 @@ const handleSeatClick = (seat) => {
   // `isReserved`와 `isMyReserved` 함수를 사용해 예약 불가능한 좌석은 클릭되지 않도록 함
   if (!isReserved(seat) && !isMyReserved(seat)) {
     setSelectSeatID(seat.id); // React 상태에는 seat.id를 저장
-    // 로컬 스토리지에는 ReservationPayment.js에서 사용하는 키인 "selectedSeatID"에 seat.num을 저장
+    // 로컬 스토리지에는 ReservationPayment.js에서 사용하는 키인 "selectedSeatID"에 seat.num을 저장하여 좌석 번호(seat.num)를 로컬스토리지에 문자열 형태로 저장
     localStorage.setItem("selectedSeatID", seat.num.toString());
   }
 };

@@ -2,7 +2,7 @@ import "./App.scss";
 import { useEffect, useState } from "react";
 import MobilePage from "./pages/MobilePage";
 import DesktopPage from "./pages/DesktopPage";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 const App = () => {
   const [isMobile,setIsMobile] = useState(window.innerWidth <= 1024);
@@ -17,13 +17,13 @@ const App = () => {
     }
   },[]);
   return (
-    <BrowserRouter>
+    <HashRouter>
     <div id="app">
       {
         isMobile ? <MobilePage /> : <DesktopPage />
       }
     </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
