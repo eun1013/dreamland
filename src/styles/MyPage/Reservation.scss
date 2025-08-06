@@ -4,6 +4,9 @@
     // height: 100vh;
     padding: 70px 0;
     margin-bottom: 50px;
+    @include desktop {
+    padding: 0;
+  }
     .reservation-box {
       background-color: #fff;
       border-bottom: 1px solid var(--color-sub);

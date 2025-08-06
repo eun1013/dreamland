@@ -2,8 +2,6 @@ import { useState } from "react";
 import InfoMap from "./InfoMap";
 import InfoPrice from "./InfoPrice";
 import InfoHow from "./InfoHow";
-import MainHeaderMobile from "./MainHeaderMobile";
-import Footer from "./Footer";
 
 const Information = () => {
   const [activeTab, setActiveTap] = useState("map");
@@ -11,7 +9,6 @@ const Information = () => {
 
   return (
     <div id="information">
-      <MainHeaderMobile />
       <ul>
         <li 
           className={activeTab === "map" ? "active" : ""}
@@ -37,7 +34,6 @@ const Information = () => {
       { activeTab === "price" && <InfoPrice /> }
       { activeTab === "how" && <InfoHow /> }
       
-      <Footer />
     </div> 
   );
 };

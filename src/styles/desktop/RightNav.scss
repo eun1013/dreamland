@@ -6,6 +6,7 @@
   height: 100vh;
   z-index: 100;
   padding: 10px;
+  padding-top: 20px;
   @include flex-layout(column, space-between);
 
   .user-info {
@@ -102,8 +103,12 @@
       .qr-box {
         width: 65px;
         height: 65px;
-        background-color: #ccc;
         border-radius: 5px;
+        img{
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
 
       .qr-sub {

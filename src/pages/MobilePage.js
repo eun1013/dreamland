@@ -16,6 +16,7 @@ import FindPW from "../mobile/FindPW";
 import ResetPw from "../mobile/ResetPw";
 import ChangedPw from "../mobile/ChangedPw";
 import Information from "../mobile/Information";
+import IntroMobile from "../mobile/IntroMobile";
 
 
 const MobilePage = () => {
@@ -43,9 +44,12 @@ const MobilePage = () => {
       if(path.includes("/membership")){
         setNameOfPage('연간회원권 등록');
       }
+      if(path.includes("/reservation")){
+        setNameOfPage('내 예약 내역');
+      }
     } else if(path.includes("/MobileReservation")){
       setNameOfPage('예약하기')
-    }else if(path.includes("/information")){
+    }else if(path === "/information"){
       setNameOfPage('사이트 정보')
     }
   },[location.pathname])
@@ -66,6 +70,7 @@ const MobilePage = () => {
         <Route path="/findpw/resetpw" element={<ResetPw ID={id}/>}/>
         <Route path="/findpw/changedpw" element={<ChangedPw/>}/>
         <Route path="/information" element={<Information/>}/>
+        <Route path="/intro" element={<IntroMobile/>}/>
         <Route path="MobileReservation/*" element={<MobileReservation />}/>
       </Routes>
       <BottomNavBarMobile/>

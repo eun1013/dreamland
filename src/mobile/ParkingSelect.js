@@ -114,8 +114,7 @@ const ParkingSelect = ({  }) => {
 
   // 9. reserveTime페이지로 넘어가는 다음으로 버튼
   const nextbtn = () => {
-    if (!selectSeatID) {
-      setErrorMsg("주차 자리를 선택해주세요");
+    if (!localStorage.getItem("selectedSeatID")) {
       setShowMsg(true);
       return;
     }
@@ -154,7 +153,7 @@ const ParkingSelect = ({  }) => {
         </div>
         <div className="top2">
           <FaMapMarkerAlt className="map-icon" />
-          <h2>{selectedZone}구역 주차 자리 선택</h2>
+          <h2><span className="zone-color">{selectedZone}구역</span> 주차 자리 선택</h2>
         </div>
       </div>
 
@@ -196,18 +195,16 @@ const ParkingSelect = ({  }) => {
         <button className="next-btn" onClick={nextbtn}> 다음으로 </button>
       </div>
 
-{/* 팝업 메시지 창 */}
+      {/* 팝업 메시지 창 */}
       {showMsg && (
-        <div className="pop active">
-          <div className="pop-up">
-            <p className="pop-icon">
-              <PiWarningCircleFill size={48} color="#DCD5E8" />
-            </p>
-            <p>{errorMsg}</p>
-            <h4>좌석을 선택하고 진행해주세요</h4>
-            <button onClick={() => setShowMsg(false)}>확인</button>
+        <div className="no-seat-selected">
+            <div className="no-seat-box">
+              <PiWarningCircleFill />
+              <p>좌석이 선택되지 않았습니다</p>
+              <p className="no-seat-bot">좌석 선택 후 이용해 주세요</p>
+              <button onClick={() => setShowMsg(false)}>확인</button>
+            </div>
           </div>
-        </div>
       )}
     </div>
   );

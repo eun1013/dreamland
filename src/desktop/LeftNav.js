@@ -1,4 +1,4 @@
-import {  NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { TiHome } from "react-icons/ti";
 import { FaCar } from "react-icons/fa";
 import { HiTicket, HiInformationCircle } from "react-icons/hi";
@@ -6,14 +6,45 @@ import { MdMore } from "react-icons/md";
 import { RiYoutubeFill } from "react-icons/ri";
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUserInfo } from "../utils/LocalStorage";
+import { PiWarningCircleFill } from "react-icons/pi";
+import { useLocation } from "react-router-dom";
+
 
 const LeftNav = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [loginCheck, setLoginCheck] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoginCheck(getUserInfo());
+  }, []);
+
+  const handleProtectedNav = (path) => {
+    if (loginCheck) {
+      navigate(path);
+    } else {
+      setShowAlert(true);
+    }
+  };
 
   return (
     <div className="left-nav">
+      {/* 알림창 */}
+      {showAlert && (
+        <div className="alert-overlay">
+          <div className="alert-box">
+            <PiWarningCircleFill />
+            <p>로그인 후 이용 가능합니다</p>
+            <p className="alert-bot">로그인 후 이용해 주세요</p>
+            <button onClick={() => setShowAlert(false)}>확인</button>
+          </div>
+        </div>
+      )}
+
       <nav className="top">
         <div className="logo">
           <img
@@ -23,56 +54,50 @@ const LeftNav = () => {
           />
         </div>
         <ul className="bottom-nav">
-  <NavLink
-    to="/"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    <li>
-      <TiHome className="icon" />
-      <span>홈</span>
-    </li>
-  </NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <li>
+              <TiHome className="icon" />
+              <span>홈</span>
+            </li>
+          </NavLink>
 
-  <NavLink
-    to="/MobileReservation/schedule"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    <li>
-      <FaCar className="icon" />
-      <span>예약하기</span>
-    </li>
-  </NavLink>
+          <li 
+          className={location.pathname === "/MobileReservation/schedule" ? "active" : ""}
+          onClick={() => handleProtectedNav("/MobileReservation/schedule")}>
+            <FaCar className="icon" />
+            <span>예약하기</span>
+          </li>
 
-  <NavLink
-    to="/mypage/reservation"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    <li>
-      <HiTicket className="icon" />
-      <span>예약 내역</span>
-    </li>
-  </NavLink>
+          <li 
+          className={location.pathname === "/mypage/reservation" ? "active" : ""}
+          onClick={() => handleProtectedNav("/mypage/reservation")}>
+            <HiTicket className="icon" />
+            <span>예약 내역</span>
+          </li>
 
-  <NavLink
-    to="/info"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    <li>
-      <HiInformationCircle className="icon" />
-      <span>주차 안내</span>
-    </li>
-  </NavLink>
+          <NavLink
+            to="/information"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <li>
+              <HiInformationCircle className="icon" />
+              <span>주차 안내</span>
+            </li>
+          </NavLink>
 
-  <NavLink
-    to="/information"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    <li>
-      <MdMore className="icon" />
-      <span>더보기</span>
-    </li>
-  </NavLink>
-</ul>
+          <NavLink
+            to="/intro"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <li>
+              <MdMore className="icon" />
+              <span>더보기</span>
+            </li>
+          </NavLink>
+        </ul>
       </nav>
 
       <div className="dreamland-info">

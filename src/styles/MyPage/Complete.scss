@@ -4,8 +4,12 @@
   padding: 70px 16px;
   padding-top: 60%;
   @include flex-layout(column, space-between, center);
+  @include desktop {
+    padding: 7rem;
+  }
   .complete-contents {
-    text-align: center;
+    @include flex-layout(column);
+    height: 100%;
     svg {
       margin-bottom: 20px;
       font-size: 7rem;

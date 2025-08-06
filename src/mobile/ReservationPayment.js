@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPaymentInfo, getUserInfo } from "../utils/LocalStorage";
+import { getUserInfo } from "../utils/LocalStorage";
 import { fetchParkID, fetchReserveID, fetchYearlyPass, payReserve, registerReservation, reservedAreaUpdate } from "../utils/ParkingAPI";
 import { FaCreditCard, FaDotCircle, FaRegCalendarAlt, FaRegCircle } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
@@ -23,7 +23,7 @@ const ReservationPayment = ({setFinalAmount}) => {
     const [saveDate,setSaveDate] = useState(null);
 
 
-    //시작하자마자 불러올 값들
+    //시작하자마자 불러올 값들 : localStorageid, 금액, 날짜, 구역, 시작시간, 종료시간, 좌석번호
     useEffect(()=>{
         const id = getUserInfo().id;
         setLoginID(id);
@@ -35,8 +35,6 @@ const ReservationPayment = ({setFinalAmount}) => {
             day: 'numeric',
             weekday: 'long'
         })
-        const user = getUserInfo();
-        const userID = user.user_id;
         const zone = localStorage.getItem("selectedZone");
         const fetchSt = localStorage.getItem("start_time");
         const startTime = JSON.parse(fetchSt);
@@ -57,6 +55,7 @@ const ReservationPayment = ({setFinalAmount}) => {
             setSaveDate(oriDate);
         }
     },[])
+
     //연간회원권 보유여부
     useEffect(()=>{
         if(!loginID) return; //id값이 없을때 진행X
@@ -72,7 +71,7 @@ const ReservationPayment = ({setFinalAmount}) => {
         fetchYearInfo();
     },[loginID])
     
-    //id가져오기
+    //parkarea_id가져오기
     useEffect(()=>{
         if(!zone && !num) return;
         const fetchID = async ()=>{
@@ -148,11 +147,13 @@ const ReservationPayment = ({setFinalAmount}) => {
     }
     return (
         <div id="reservation-payment">
-            <div className="current-date">
-                <FaRegCalendarAlt />
-                <p>{date}</p>
+            <div className="reserve-pay-top">
+                <div className="current-date">
+                    <FaRegCalendarAlt />
+                    <p>{date}</p>
+                </div>
+                <h2 className="payment-i"><FaCreditCard className="credit-i" /> 결제 수단 선택</h2>
             </div>
-            <h2 className="payment-i"><FaCreditCard className="credit-i" /> 결제 수단 선택</h2>
             <div className="payment-way">
                 <div className="how-to-pay">
                     <div className={`credit-check ${selected === 'card' ? 'selected' : ''}`} onClick={()=>{handleSelect('card')}}>

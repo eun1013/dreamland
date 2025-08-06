@@ -12,18 +12,25 @@
     @include flex-layout(column,flex-start,center);
     gap: 1.5rem;
     overflow: scroll;
-    .current-date{
-        width: 100%;
-        @include flex-layout();
-        gap: 1rem;
-        color: var(--color-graytxt);
-        @include font-caption();
-    }
-    .payment-i{
-        @include flex-layout();
-        gap: 1rem;
-        width: 100%;
-        text-align: center;
+    .reserve-pay-top{
+        @include flex-layout(column);
+        gap: 6px;
+        .current-date{
+            width: 100%;
+            @include flex-layout();
+            gap: 1rem;
+            color: var(--color-graytxt);
+            @include font-caption();
+        }
+        .payment-i{
+            @include flex-layout();
+            gap: 1rem;
+            width: 100%;
+            text-align: center;
+            svg{
+                color: var(--color-primary);
+            }
+        }
     }
     .payment-way{
         width: 100%;
@@ -141,7 +148,7 @@
     @include font-body();
     @include flex-layout(column,flex-start,center);
     gap: 1rem;
-    overflow: scroll;
+    // overflow: scroll;
     .top-com-re{
         margin-top: 3rem;
         @include flex-layout();

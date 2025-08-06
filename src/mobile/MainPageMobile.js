@@ -97,7 +97,8 @@ const MainPageMobile = () => {
         <div className="alert-overlay">
           <div className="alert-box">
             <PiWarningCircleFill />
-            <p>로그인을 먼저 해주세요.</p>
+            <p>로그인이 되어 있지 않습니다</p>
+            <p className="alert-bot">로그인 후 이용해 주세요</p>
             <button onClick={() => setShowAlert(false)}>확인</button>
           </div>
         </div>
@@ -211,7 +212,7 @@ const MainPageMobile = () => {
           </button>
         </div>
 
-        <div className="more-info" onClick={() => navigate("/information")}>
+        <div className="more-info" onClick={() => navigate("/intro")}>
           더 많은 정보 보기
           <FaCaretRight className="icon" />
         </div>

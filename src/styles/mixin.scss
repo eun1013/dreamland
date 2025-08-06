@@ -8,6 +8,11 @@
     @content;
   }
 }
+@mixin pop-max {
+  @media screen and (min-width: 1024px) {
+    @content;
+  }
+}
 
 //플렉스
 @mixin flex-layout($direction: row, $justify: center, $align: center) {
@@ -68,7 +73,6 @@
   }
 }
 
-
 //버튼 2종
 @mixin btn1 {
   margin-bottom: 2.5rem;
@@ -84,6 +88,11 @@
   &:hover {
     filter: brightness(85%);
   }
+  @include pop-max{
+    font-size: 20px;
+    height: 50px;
+    border-radius: 14px;
+  }
 }
 @mixin btn2 {
   width: 100%;
@@ -98,12 +107,39 @@
   &:hover {
     filter: brightness(90%);
   }
+  @include pop-max{
+    font-size: 20px;
+    height: 50px;
+    border-radius: 14px;
+  }
 }
 
 //보더 박스
-  @mixin border {
-    width: 380px;
-    border: 1px solid var(--color-sub);
-    border-radius: 1rem;
-    padding: 20px 30px;
+@mixin border {
+  width: 380px;
+  border: 1px solid var(--color-sub);
+  border-radius: 1rem;
+  padding: 20px 30px;
+}
+
+// desktop 전용 믹스인
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
   }
+}
+
+//팝업 버튼
+@mixin pop-btn {
+  width: 100%;
+    height: 4rem;
+    margin-top: 1rem;
+    border: none;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 1rem;
+    cursor: pointer;
+    &:hover {
+      filter: brightness(80%);
+    }
+}

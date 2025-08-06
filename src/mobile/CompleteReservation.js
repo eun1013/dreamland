@@ -82,7 +82,7 @@ const CompleteReservation = () => {
         localStorage.removeItem("start_time");
         localStorage.removeItem("end_time");
         localStorage.removeItem("total");
-        localStorage.removeItem("payment");
+        localStorage.removeItem("parkID");
         navigate("/");
     }
     const handleReservation = ()=>{
@@ -95,7 +95,7 @@ const CompleteReservation = () => {
         localStorage.removeItem("start_time");
         localStorage.removeItem("end_time");
         localStorage.removeItem("total");
-        localStorage.removeItem("payment");
+        localStorage.removeItem("parkID");
         navigate("/mypage/reservation");
     }
     return (

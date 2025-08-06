@@ -97,10 +97,11 @@ const sortedReserve = [...myreserve]
 
           <div className="reserve-wrap">
 
-            {sortedReserve.map((item) => {
+            {sortedReserve.map((item,idx) => {
               const amountValue = getReserveAmountValue(item.id);
               return (
                 <div
+                  key={idx}
                   className={
                     item.status === "canceled"
                       ? "card reservation-canceled"

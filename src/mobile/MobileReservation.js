@@ -6,7 +6,6 @@ import ParkingSelect from "./ParkingSelect";
 import ReservesTime from "./ReservesTime";
 import ReservesAllDay from "./ReservesAllDay";
 import ReservationPayment from "./ReservationPayment";
-import { getPaymentInfo, savePaymentInfo } from "../utils/LocalStorage";
 import CompleteReservation from "./CompleteReservation";
 
 const MobileReservation = () => {
@@ -40,9 +39,6 @@ const MobileReservation = () => {
     setSelectTotal  
   };
 
-  useEffect(()=>{
-    savePaymentInfo(reservationState);
-  },[reservationState])
 
   return (
     <Routes>
