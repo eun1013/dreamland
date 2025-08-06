@@ -6,7 +6,6 @@ import InfoHow from "./InfoHow";
 const Information = () => {
   const [activeTab, setActiveTap] = useState("map");
 
-
   return (
     <div id="information">
       <ul>

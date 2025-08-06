@@ -1,21 +1,21 @@
 
-import MyPage from "../components/MyPage/MyPage";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import MyPage from "../mobile/MyPage/MyPage";
+import Login from "../mobile/Login&SignUp/Login";
+import SignUp from "../mobile/Login&SignUp/SignUp";
+import AgreeMent from "../mobile/Login&SignUp/AgreeMent";
+import SignUpComplete from "../mobile/Login&SignUp/SignUpComplete";
+import FindID from "../mobile/Login&SignUp/FindID";
+import FindIDNo1 from "../mobile/Login&SignUp/FindIDNo1";
+import FindPW from "../mobile/Login&SignUp/FindPW";
+import ResetPw from "../mobile/Login&SignUp/ResetPw";
+import ChangedPw from "../mobile/Login&SignUp/ChangedPw";
 import MainPageMobile from "../mobile/MainPageMobile";
 import MobileReservation from "../mobile/MobileReservation";
-import { useEffect, useState } from "react";
 import HeaderMobile from "../mobile/HeaderMobile";
 import BottomNavBarMobile from "../mobile/BottomNavBarMobile";
-import Login from "../mobile/Login";
-import AgreeMent from "../mobile/AgreeMent";
-import SignUp from "../mobile/SignUp";
-import SignUpComplete from "../mobile/SignUpComplete";
-import FindID from "../mobile/FindID";
-import FindIDNo1 from "../mobile/FindIDNo1";
-import FindPW from "../mobile/FindPW";
-import ResetPw from "../mobile/ResetPw";
-import ChangedPw from "../mobile/ChangedPw";
-import Information from "../mobile/Information";
+import Information from "../mobile/Information/Information";
 import IntroMobile from "../mobile/IntroMobile";
 
 
@@ -56,22 +56,24 @@ const MobilePage = () => {
   return (
     <div className="mobile-page">
       <HeaderMobile pageName={nameOfPage}/>
-      <Routes>
-        <Route path="/" element={<MainPageMobile />}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/mypage/*" element={<MyPage/>}/>
-        <Route path="/agreement" element={<AgreeMent/>}/>
-        <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/signupComplete" element={<SignUpComplete/>}/>
-        <Route path="/findid" element={<FindID setUserID={setUserID}/>}/>
-        <Route path="/findidno1" element={<FindIDNo1 userID={userID}/>}/>
-        <Route path="/findpw" element={<FindPW setID={setId}/>}/>
-        <Route path="/findpw/resetpw" element={<ResetPw ID={id}/>}/>
-        <Route path="/findpw/changedpw" element={<ChangedPw/>}/>
-        <Route path="/information" element={<Information/>}/>
-        <Route path="/intro" element={<IntroMobile/>}/>
-        <Route path="MobileReservation/*" element={<MobileReservation />}/>
-      </Routes>
+      <div className="mobile-page-contents">
+        <Routes>
+          <Route path="/" element={<MainPageMobile />}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/mypage/*" element={<MyPage/>}/>
+          <Route path="/agreement" element={<AgreeMent/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/signupComplete" element={<SignUpComplete/>}/>
+          <Route path="/findid" element={<FindID setUserID={setUserID}/>}/>
+          <Route path="/findidno1" element={<FindIDNo1 userID={userID}/>}/>
+          <Route path="/findpw" element={<FindPW setID={setId}/>}/>
+          <Route path="/findpw/resetpw" element={<ResetPw ID={id}/>}/>
+          <Route path="/findpw/changedpw" element={<ChangedPw/>}/>
+          <Route path="/information/*" element={<Information/>}/>
+          <Route path="/intro" element={<IntroMobile/>}/>
+          <Route path="MobileReservation/*" element={<MobileReservation />}/>
+        </Routes>
+      </div>
       <BottomNavBarMobile/>
     </div>
   );

@@ -69,55 +69,60 @@ const AgreeMent = () => {
     
     return (
         <div id="agree-ment">
-            <h2>이용 약관에 동의해 주세요</h2>
-            <div className="list-all">
-                {
-                agreeArray.map((item,idx)=>{
-                    return (
-                        <div key={item.id}  className="list-allwrap">
-                            <div className={`agree-list ${checked[idx] ? "isClicked" : ""}`}>
-                                <div className="agree">
-                                    <input type="checkbox"
-                                    id={item.id}
-                                    value={checked[idx]}
-                                    checked={checked[idx]}
-                                    onChange={()=>{handleCheck(idx)}}
-                                    />
-                                    <label htmlFor={item.id}>{item.title}</label>
+            <div className="agree-top-wrap">
+                <h2>이용 약관에 동의해 주세요</h2>
+                <div className="list-all">
+                    {
+                    agreeArray.map((item,idx)=>{
+                        return (
+                            <div key={item.id}  className="list-allwrap">
+                                <div className={`agree-list ${checked[idx] ? "isClicked" : ""}`}>
+                                    <div className="agree">
+                                        <input type="checkbox"
+                                        id={item.id}
+                                        value={checked[idx]}
+                                        checked={checked[idx]}
+                                        onChange={()=>{handleCheck(idx)}}
+                                        />
+                                        <label htmlFor={item.id}>{item.title}</label>
+                                    </div>
+                                    <button onClick={()=>{handleOpenClose(item.id)}}>{opened === item.id ? <IoIosArrowUp className="arrow-icon" /> : <IoIosArrowDown className="arrow-icon" />}</button>
                                 </div>
-                                <button onClick={()=>{handleOpenClose(item.id)}}>{opened === item.id ? <IoIosArrowUp className="arrow-icon" /> : <IoIosArrowDown className="arrow-icon" />}</button>
+                                {
+                                    (opened === item.id) &&
+                                    <p className="agree-desc">  {item.desc}</p>
+                                }
                             </div>
-                            {
-                                (opened === item.id) &&
-                                <p className="agree-desc">  {item.desc}</p>
-                            }
-                        </div>
-                    )
-                })
-            }
-            </div>
-            <div className={allRequiredCheck ? "all-check isChecked" : "all-check"}>
-                <input 
-                    type="checkbox"
-                    id="checkall"
-                    onChange={handlecheckAll}
-                />
-                <label htmlFor="checkall">전체 동의합니다</label>
+                        )
+                    })
+                }
+                </div>
             </div>
             {
                 agreeNeed && (
-                    <div className="agree-popup">
-                        <div className="center-pop">
-                            <PiWarningCircleFill className="warning-sign"/>
-                            <p>필수 약관에 동의해 주세요</p>
-                            <p className="agree-bot">동의하지 않으면 가입이 어렵습니다</p>
-                            <button onClick={()=>{setAgreeNeed(false)}}>확인</button>
+                        <div className="popup-wrap">
+                            <div className="popup">
+                                <div className="popup-top">
+                                <PiWarningCircleFill className="warning-sign" />
+                                <p className="popup-ment1">필수 약관에 동의해 주세요</p>
+                                <p className="popup-ment2">동의하지 않으면 가입할 수 없어요</p>
+                                </div>
+                                <button onClick={()=>{setAgreeNeed(false)}}>확인</button>
+                            </div>
                         </div>
-                    </div>
                 )
             }
-            <button
-            className="agree-to-next" onClick={handleNextBtn}>다음</button>
+            <div className="agree-bottom-wrap">
+                <div className={allRequiredCheck ? "all-check isChecked" : "all-check"}>
+                    <input 
+                        type="checkbox"
+                        id="checkall"
+                        onChange={handlecheckAll}
+                    />
+                    <label htmlFor="checkall">전체 동의합니다</label>
+                </div>
+                <button className="agree-to-next" onClick={handleNextBtn}>다음</button>
+            </div>
         </div>
     );
 };

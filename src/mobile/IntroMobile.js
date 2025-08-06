@@ -61,7 +61,7 @@ const Information = () => {
               <br />
               <span>주차장 앱</span>
             </p>
-            <img src={`${process.env.PUBLIC_URL}/images/info_app.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_app.png`} alt="info_app"/>
           </li>
           <li className="item">
             <p>
@@ -71,7 +71,7 @@ const Information = () => {
               <br />
               <span>초대형 주차 공간</span>
             </p>
-            <img src={`${process.env.PUBLIC_URL}/images/info_seat.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_seat.png`} alt="info_seat"/>
           </li>
           <li className="item">
             <p>
@@ -81,7 +81,7 @@ const Information = () => {
               <br />
               <span>검증된 품질</span>
             </p>
-            <img src={`${process.env.PUBLIC_URL}/images/info_handle.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_handle.png`} alt="info_handle"/>
           </li>
           <li className="item">
             <p>
@@ -90,7 +90,7 @@ const Information = () => {
               <span>즐거운 하루</span>를<br />
               시작하세요
             </p>
-            <img src={`${process.env.PUBLIC_URL}/images/info_att.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_att.png`} alt="info_att"/>
           </li>
         </ul>
       </div>
@@ -101,7 +101,7 @@ const Information = () => {
         </div>
         <ul className="dicount-wrap">
           <li className="item">
-            <img src={`${process.env.PUBLIC_URL}/images/info_car.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_car.png`} alt="info_car"/>
             <div className="txt">
               <p>2번째 방문시</p>
               <div className="wrap"> 
@@ -111,7 +111,7 @@ const Information = () => {
             </div>
           </li>
           <li className="item">
-            <img src={`${process.env.PUBLIC_URL}/images/info_coupon.png`} />
+            <img src={`${process.env.PUBLIC_URL}/images/info_coupon.png`} alt="info_coupon"/>
             <div className="txt">
               <p>연간회원권 보유시</p>
               <div className="wrap"> 
@@ -129,7 +129,7 @@ const Information = () => {
         </div>
         <div className="content">
           <div className="parking-img">
-            <img src={`${process.env.PUBLIC_URL}/images/info_parking.png`}/>
+            <img src={`${process.env.PUBLIC_URL}/images/info_parking.png`} alt="info_parking"/>
           </div>
         </div>
       </div>

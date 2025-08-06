@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllUserId, fetchSignUp } from "../utils/ParkingAPI";
+import { fetchAllPhone, fetchAllUserId, fetchSignUp } from "../../utils/ParkingAPI";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleFill } from "react-icons/pi";
 
@@ -21,7 +21,8 @@ const SignUp = () => {
     const [needInfo,setNeedInfo] = useState(false);
     const [shortPass,setShortPass] = useState(false);
     const [textShort,setTextShort] = useState(false);
-    console.log(name,userID,password,rePass,phone,car);
+    const [userPhone,setUserPhone] = useState({});
+    const [dupPhone,setDupPhone] = useState(false);
     //users 테이블의 모든 user_id정보
     const allUser = async ()=>{
         const { data, error } = await fetchAllUserId();
@@ -33,6 +34,20 @@ const SignUp = () => {
                 return item.user_id;
             });
             setUsersTable(idOnly);
+        }
+    }
+
+    //user 테이블의 모든 phone정보
+    const allPhone = async ()=>{
+        const { data, error } = await fetchAllPhone();
+        if(error){
+            console.log("휴대폰 번호정보가 없습니다")
+        }
+        if(data){
+            const phoneOnly = data.map((item)=>{
+                return item.phone;
+            });
+            setUserPhone(phoneOnly);
         }
     }
     //회원가입 API
@@ -49,9 +64,13 @@ const SignUp = () => {
     const handleSignUp = (e)=>{
         e.preventDefault();
         if(name && userID && password && rePass && phone && car){
-            if(password.length >= 8 && rePass >= 8){
+            if(password.length >= 8 && rePass.length >= 8){
                 if(password === rePass){
-                    insertSignUp();
+                    if(!userPhone.includes(phone)){
+                        insertSignUp();
+                    } else {
+                        setDupPhone(true);
+                    }
                 } else {
                     alert("비밀번호를 재확인 해주세요")
                 }
@@ -101,6 +120,7 @@ const SignUp = () => {
     //모든 유저아이디 불러오기
     useEffect(()=>{
         allUser();
+        allPhone();
     },[])
     return (
         <div id="sign-up">
@@ -190,11 +210,13 @@ const SignUp = () => {
             </form>
             {
                 needInfo && (
-                    <div className="needinfo-popup">
-                        <div className="info-pop">
-                            <PiWarningCircleFill className="warning-sign"/>
-                            <p>정보가 입력되지 않았습니다</p>
-                            <p className="info-bot">모든 항목을 입력해 주세요</p>
+                    <div className="popup-wrap">
+                        <div className="popup">
+                            <div className="popup-top">
+                                <PiWarningCircleFill className="warning-sign"/>
+                                <p className="popup-ment1">정보가 입력되지 않았습니다</p>
+                                <p className="popup-ment2">모든 항목을 입력해 주세요</p>
+                            </div>
                             <button onClick={()=>{setNeedInfo(false)}}>확인</button>
                         </div>
                     </div>
@@ -202,12 +224,28 @@ const SignUp = () => {
             }
             {
                 shortPass && (
-                    <div className="too-short">
-                        <div className="too-short-pass">
-                            <PiWarningCircleFill/>
-                            <p>비밀번호가 너무 짧습니다</p>
-                            <p className="too-short-bot">비밀번호를 8자이상 입력해 주세요</p>
+                    <div className="popup-wrap">
+                        <div className="popup">
+                            <div className="popup-top">
+                                <PiWarningCircleFill/>
+                                <p className="popup-ment1">비밀번호가 너무 짧습니다</p>
+                                <p className="popup-ment2">비밀번호를 8자이상 입력해 주세요</p>
+                            </div>
                             <button onClick={()=>{setShortPass(false)}}>확인</button>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                dupPhone && (
+                    <div className="popup-wrap">
+                        <div className="popup">
+                            <div className="popup-top">
+                                <PiWarningCircleFill/>
+                                <p className="popup-ment1">이미 가입된 번호입니다</p>
+                                <p className="popup-ment2">다른 번호를 사용해 주세요</p>
+                            </div>
+                            <button onClick={()=>{setDupPhone(false)}}>확인</button>
                         </div>
                     </div>
                 )

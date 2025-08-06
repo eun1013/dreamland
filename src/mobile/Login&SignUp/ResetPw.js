@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { findPassword } from "../utils/ParkingAPI";
+import { findPassword } from "../../utils/ParkingAPI";
 import { useNavigate } from "react-router-dom";
 import { PiWarningCircleFill } from "react-icons/pi";
 
@@ -13,7 +13,7 @@ const ResetPw = ({ID}) => {
     const [shortPass,setShortPass] = useState(false);
     const [lessInfo,setLessInfo] = useState(false);
     const changePass = async ()=>{
-        const { data, error } = await findPassword(ID,password);
+        const { error } = await findPassword(ID,password);
         if(!error){
             navigate("/findpw/changedpw");
         }
@@ -52,8 +52,8 @@ const ResetPw = ({ID}) => {
     return (
         <div id="reset-pw">
             <div className="reset-pw-wrap">
+                <form>
                 <h2>변경할 비밀번호를 입력해 주세요</h2>
-                <form onSubmit={handleChangePw}>
                     <div className="re-set-pass">
                         <label>비밀번호</label>
                         <input 
@@ -81,15 +81,17 @@ const ResetPw = ({ID}) => {
                             placeholder="비밀번호를 한 번 더 입력해 주세요"
                         />
                     </div>
-                    <button type="submit" onClick={handleChangePw}>다음</button>
                 </form>
+                    <button onClick={handleChangePw}>다음</button>
                 {
                     shortPass && (
-                        <div className="too-short">
-                            <div className="too-short-pass">
-                                <PiWarningCircleFill/>
-                                <p>비밀번호가 너무 짧습니다</p>
-                                <p className="too-short-bot">비밀번호를 8자이상 입력해 주세요</p>
+                        <div className="popup-wrap">
+                            <div className="popup">
+                                <div className="popup-top">
+                                <PiWarningCircleFill className="warning-sign" />
+                                <p className="popup-ment1">비밀번호가 너무 짧습니다</p>
+                                <p className="popup-ment2">비밀번호를 8자 이상 입력해 주세요</p>
+                                </div>
                                 <button onClick={()=>{setShortPass(false)}}>확인</button>
                             </div>
                         </div>
@@ -97,11 +99,13 @@ const ResetPw = ({ID}) => {
                 }
                 {
                     lessInfo && (
-                        <div className="less-info">
-                            <div className="less-info-pass">
-                                <PiWarningCircleFill/>
-                                <p>입력되지 않은 항목이 있습니다</p>
-                                <p className="less-info-bot">모든 항목을 입력해 주세요</p>
+                        <div className="popup-wrap">
+                            <div className="popup">
+                                <div className="popup-top">
+                                <PiWarningCircleFill className="warning-sign" />
+                                <p className="popup-ment1">입력되지 않은 항목이 있습니다</p>
+                                <p className="popup-ment2">모든 항목을 입력해 주세요</p>
+                                </div>
                                 <button onClick={()=>{setLessInfo(false)}}>확인</button>
                             </div>
                         </div>

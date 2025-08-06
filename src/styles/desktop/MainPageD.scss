@@ -2,7 +2,7 @@
   max-width: $small-size;
   min-height: 100vh;
   margin: 0 auto;
-  margin-top: 50px;
+  
   // padding-top: 35px;
 
     // 알림메세지
@@ -63,10 +63,11 @@
   .zone-map {
     width: 100%;
     padding: 16px;
+    padding-top: 50px;
     background-color: rgba($color: #dcd5e8, $alpha: 0.1);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     @keyframes spin {
       from {
         transform: rotate(0deg);
@@ -144,7 +145,7 @@
         gap: 10px;
         margin-top: 10px;
         .zone {
-          padding: 16px;
+          padding: 20px;
           background-color: var(--color-white);
           border-radius: 16px;
           .top {
@@ -241,10 +242,10 @@
 
   // 아래 버튼
   .reservation-section {
-    padding: 0 16px;
-    @include flex-layout(row);
+    @include flex-layout(row,stretch);
     gap: 15px;
-    margin: 1rem auto;
+    margin: 1rem 16px;
+    height: 85px;
     .icon {
       font-size: 32px;
       path {
@@ -252,15 +253,15 @@
       }
     }
     .reserve-btn {
-      flex: 1;
       @include btn1();
       @include font-h2;
-      @include flex-layout;
-      height: 85px;
+      @include flex-layout(row, center, center);
+      flex: 1;
+      height: 100% !important;
       margin: 0;
       gap: 10px;
       width: 100%;
-      padding: 3rem 0;
+      padding: 0;
       cursor: pointer;
       box-shadow: 0px 0px 15px rgba(220, 213, 232, 0.5);
 
@@ -276,6 +277,7 @@
       display: flex;
       gap: 16px;
       width: 100%;
+      height: 100%;
       flex: 1;
 
       .info-btn {
@@ -283,9 +285,9 @@
         @include font-body-bold;
         @include flex-layout;
         border-radius: 16px;
-        height: 85px;
+        height: 100%;
         width: 100%;
-        padding: 20px 0;
+        padding: 0;
         background-color: var(--color-white);
         flex: 1;
         gap: 6px;
@@ -298,21 +300,6 @@
         }
       }
     }
-
-    .more-info {
-      @include border;
-      @include font-body-bold;
-      @include flex-layout(row, space-between);
-      border-radius: 16px;
-      height: 70px;
-      background-color: var(--color-white);
-      width: 100%;
-      cursor: pointer;
-      box-shadow: 0px 0px 15px rgba(220, 213, 232, 0.5);
-      &:hover {
-        filter: brightness(95%);
-      }
-    }
   }
   .welcome-section {
     padding: 16px;
@@ -321,7 +308,7 @@
     .welcome-wrap {
       background-color: #c6acff;
       border-radius: 16px;
-      padding: 16px;
+      padding: 25px;
       width: 100%;
       height: 200px;
       position: relative;
@@ -345,6 +332,7 @@
           h2 {
             @include font-h2;
             color: var(--color-white);
+            margin-bottom: 10px;
           }
           p {
             @include font-body-bold;
@@ -352,12 +340,17 @@
           }
         }
         .btn {
-          @include font-body-bold;
+          @include font-body;
           width: fit-content;
-          background-color: var(--color-primary);
+          background-color: #c6acff;
           color: var(--color-white);
-          padding: 10px 16px;
+          padding: 10px 30px;
           border-radius: 20px;
+          border: 1px solid var(--color-white);
+          &:hover {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+          }
         }
       }
       @keyframes carDrive {
@@ -449,7 +442,7 @@
         .category-btn {
           @include font-body;
           flex: 1;
-          padding: 8px 16px;
+          padding: 12px 13px;
           border: 1px solid var(--color-sub);
           border-radius: 30px;
           background: var(--color-white);

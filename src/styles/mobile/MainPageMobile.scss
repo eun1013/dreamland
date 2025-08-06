@@ -1,10 +1,8 @@
 #main-page {
-  max-width: $small-size;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 70px 0;
-  padding-top: 70px;
-
+  min-height: calc(100vh - 140px) ;
+  @include desktop {
+    min-height: 100vh;
+  }
   // 알림메세지
   .alert-overlay {
     position: fixed;
@@ -141,7 +139,8 @@
         margin-top: 10px;
         .zone {
           @include flex-layout(column, center, flex-end);
-          padding: 12px 15px;
+          gap: 5px;
+          padding: 15px 15px;
           background-color: var(--color-white);
           border-radius: 16px;
           .top {

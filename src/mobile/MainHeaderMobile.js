@@ -9,7 +9,6 @@ const MainHeaderMobile = () => {
   useEffect(()=>{
     setLoginCheck(getUserInfo());
   },[])
-  console.log(loginCheck);
   return (
     <nav id="top-main-navbar">
       <div className="navbar-container">

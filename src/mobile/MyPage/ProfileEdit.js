@@ -3,7 +3,7 @@ import { getUserInfo } from "../../utils/LocalStorage";
 import { useNavigate } from "react-router-dom";
 import { changePassword } from "../../utils/ParkingAPI";
 
-const ProfileEdit = () => {
+const ProfileEdit = ({uuid}) => {
   const user = getUserInfo();
   const navigate = useNavigate();
   const [name, setName] = useState(user.name);
@@ -26,7 +26,7 @@ const ProfileEdit = () => {
       return;
     }
     const { error } = await changePassword({
-      id: user.id,
+      id: uuid,
       newPass: password,
       newName: name,
       newCar: carNum,

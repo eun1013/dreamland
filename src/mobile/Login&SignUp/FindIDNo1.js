@@ -11,8 +11,8 @@ const FindIDNo1 = ({userID}) => {
                     <label>일치하는 아이디</label>
                     <p>{userID}</p>
                 </div>
-                <button onClick={()=>{navigate("/login")}}>확인</button>
             </div>
+            <button onClick={()=>{navigate("/login")}}>확인</button>
         </div>
     );
 };

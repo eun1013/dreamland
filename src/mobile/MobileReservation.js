@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import ScheduleSelect from "./ScheduleSelect";
 import FloorSelect from "./FloorSelect";
 import ParkingSelect from "./ParkingSelect";
@@ -7,19 +7,20 @@ import ReservesTime from "./ReservesTime";
 import ReservesAllDay from "./ReservesAllDay";
 import ReservationPayment from "./ReservationPayment";
 import CompleteReservation from "./CompleteReservation";
+import ProgressBar from "./ProgressBar";
 
 const MobileReservation = () => {
-  const [finalAmount,setFinalAmount] = useState(0);
+  const location = useLocation(); // 현재 경로 확인
+  const [finalAmount, setFinalAmount] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedZone, setSelectedZone] = useState(null);
   const [selectedZoneSeats, setSelectedZoneSeats] = useState([]);
   const [selectSeatID, setSelectSeatID] = useState(null);
-  const [selectedStartTime, setSelectStartTime] = useState(null);  // 시작시간 관리
-  const [selectedEndTime, setSelectEndTime] = useState(null);  // 종료시간 관리
-  const [selectedTime, setSelectTime] = useState(null);  // 총 시간 관리
-  const [selectedTotal, setSelectTotal] = useState(0);  // 총 금액 관리
+  const [selectedStartTime, setSelectStartTime] = useState(null);
+  const [selectedEndTime, setSelectEndTime] = useState(null);
+  const [selectedTime, setSelectTime] = useState(null);
+  const [selectedTotal, setSelectTotal] = useState(0);
 
-  //날짜, 구역, 좌석 상태 관리
   const reservationState = {
     selectedDate,
     setSelectedDate,
@@ -28,79 +29,33 @@ const MobileReservation = () => {
     selectedZoneSeats,
     setSelectedZoneSeats,
     selectSeatID,
-    setSelectSeatID, 
+    setSelectSeatID,
     selectedStartTime,
-    setSelectStartTime,  
+    setSelectStartTime,
     selectedEndTime,
     setSelectEndTime,
     selectedTime,
     setSelectTime,
     selectedTotal,
-    setSelectTotal  
+    setSelectTotal,
   };
 
+  // complete 경로일 때는 진행 바 숨김
+  const hideProgressBar = location.pathname.includes("complete");
 
   return (
-    <Routes>
-      <Route
-        path="schedule"
-        element={
-          <ScheduleSelect
-          reservation={reservationState}
-          />
-        }
-      />
-      <Route
-        path="floor"
-        element={
-          <FloorSelect
-            reservation={reservationState}
-          />
-        }
-      />
-      <Route
-        path="parking"
-        element={
-          <ParkingSelect
-            reservation={reservationState}
-          />
-        }
-      />
-      <Route
-        path="Time"
-        element={
-          <ReservesTime
-            reservation={reservationState}
-          />
-        }
-      />
-      <Route
-        path="AllDay"
-        element={
-          <ReservesAllDay
-            reservation={reservationState}
-          />
-        }
-      />
-      <Route
-        path="payment"
-        element={
-          <ReservationPayment
-            reservation={reservationState}
-            setFinalAmount={setFinalAmount}
-          />
-        }
-      />
-      <Route
-        path="complete"
-        element={
-          <CompleteReservation
-            reservation={reservationState}
-            finalAmount={finalAmount}
-          />
-        }
-      />
-    </Routes>
+    <>
+      {!hideProgressBar && <ProgressBar />}
+      <Routes>
+        <Route path="schedule" element={<ScheduleSelect reservation={reservationState} />} />
+        <Route path="floor" element={<FloorSelect reservation={reservationState} />} />
+        <Route path="parking" element={<ParkingSelect reservation={reservationState} />} />
+        <Route path="Time" element={<ReservesTime reservation={reservationState} />} />
+        <Route path="AllDay" element={<ReservesAllDay reservation={reservationState} />} />
+        <Route path="payment" element={<ReservationPayment reservation={reservationState} setFinalAmount={setFinalAmount} />} />
+        <Route path="complete" element={<CompleteReservation reservation={reservationState} finalAmount={finalAmount} />} />
+      </Routes>
+    </>
   );
 };
 

@@ -8,8 +8,10 @@ import PasswordCheck from "./PasswordCheck";
 import ProfileComplete from "./ProfileComplete";
 import Membership from "./Membership";
 import MembershipComplete from "./MembershipComplete";
+import { useState } from "react";
 
 const MyPage = () => {
+  const [uuid,setUuid] = useState('');
   const navigate = useNavigate();
 
   // 내 예약 내역에서 클릭한 해당 아이템의 예약 정보, 결제 정보를 받아 가져오고
@@ -31,8 +33,8 @@ const MyPage = () => {
         <Route path="cancel-complete" element={<CancelComplete />} />
 
         {/* 개인정보 변경 */}
-        <Route path="password-check" element={<PasswordCheck />} />
-        <Route path="profile-edit" element={<ProfileEdit />} />
+        <Route path="password-check" element={<PasswordCheck setUuid={setUuid}/>} />
+        <Route path="profile-edit" element={<ProfileEdit uuid={uuid}/>} />
         <Route path="profile-complete" element={<ProfileComplete />} />
 
         {/* 연간회원권 등록 */}

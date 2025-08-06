@@ -1,10 +1,7 @@
 .information-page {
-  max-width: $small-size;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 70px 0;
-  @include desktop{
-    padding: 0;
+  min-height: calc(100vh - 140px) ;
+  @include desktop {
+    min-height: 100vh;
   }
   .slider-container {
     width: 100%;

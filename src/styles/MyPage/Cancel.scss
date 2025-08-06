@@ -1,10 +1,9 @@
 #cancel {
-  height: 100vh;
-  padding: 70px 0;
   @include flex-layout(column, space-between, center);
   gap: 2rem;
+  min-height: calc(100vh - 140px) ;
   @include desktop {
-    padding: 7rem;
+    min-height: 100vh;
   }
   .cancel-top {
     width: 100%;

@@ -30,7 +30,8 @@ const MyPageHome = () => {
 
   const handleLogout = () => {
     deleteUserInfo();
-    window.location.href = "/"; // ✅ 강제 새로고침
+    navigate("/");
+    window.location.reload();
 };
 
 
@@ -61,29 +62,44 @@ const MyPageHome = () => {
             </div>
           </div>
 
-          <div className="recently">
-            <p className="box-title">최근 예약 내역</p>
-            <div className="recently-box" onClick={()=>{navigate("reservation")}}>
-              {
-                myreserve.slice(0, 2).map((item)=>{
-                  return (
-                    <div className={item.status === 'canceled' ? 'canceled' : 'reserved'} key={item.id}>
-                      <p>
-                          {new Date(item.selected_date).toLocaleString("ko-KR", {
-                            month: "long",
-                            day: "numeric",
-                            weekday: "long",
-                          })} &nbsp;
-                          {item.start_time.slice(0,5)}~{item.end_time.slice(0,5)}
-                      </p>
-                      { item.status === 'canceled' ? <p>● 예약 취소</p> : <p>● 예약 중</p> }
-                    </div>
-                  )
-                })
-              }
+<div className="recently">
+  <p className="box-title">최근 예약 내역</p>
 
-            </div>
-          </div>
+  {
+    myreserve.length === 0 ? (
+      <div className="recently-box empty">
+        <p>최근 예약 내역이 없습니다</p>
+      </div>
+    ) : (
+      <div className="recently-box" onClick={() => { navigate("reservation") }}>
+        {
+          // 예약중 먼저, 취소는 뒤로 정렬해서 상위 2개만 출력
+          [...myreserve]
+            .sort((a, b) => {
+              // 예약 중 우선 정렬 (canceled는 뒤로)
+              if (a.status === 'canceled' && b.status !== 'canceled') return 1;
+              if (a.status !== 'canceled' && b.status === 'canceled') return -1;
+              return 0;
+            })
+            .slice(0, 2)
+            .map((item) => (
+              <div className={item.status === 'canceled' ? 'canceled' : 'reserved'} key={item.id}>
+                <p>
+                  {new Date(item.selected_date).toLocaleString("ko-KR", {
+                    month: "long",
+                    day: "numeric",
+                    weekday: "long",
+                  })} &nbsp;
+                  {item.start_time.slice(0, 5)}~{item.end_time.slice(0, 5)}
+                </p>
+                {item.status === 'canceled' ? <p>● 예약 취소</p> : <p>● 예약 중</p>}
+              </div>
+            ))
+        }
+      </div>
+    )
+  }
+</div>
 
           <div className="profile-edit">
             <p className="box-title">내 정보 변경</p>

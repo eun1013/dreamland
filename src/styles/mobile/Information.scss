@@ -1,11 +1,4 @@
 #information {
-  max-width: $small-size;
-  margin: 0 auto;
-  min-height: calc(100vh - 70px);
-  padding: 70px 0;
-  @include desktop {
-    padding: 0;
-  }
   ul {
     @include flex-layout(row, flex-start, center);
     gap: 25px;
@@ -28,6 +21,7 @@
       border-radius: 16px;
       padding: 28px;
       padding-bottom: 0;
+      z-index: 100;
       img {
         width: 100%;
       }
@@ -36,10 +30,11 @@
   // ----- price -----
   .info-price {
     .price-content {
-      padding: 35px 25px;
+      padding: 35px 28px;
       padding-bottom: 0;
       @include flex-layout(column, center, flex-start);
       gap: 20px;
+      z-index: 100;
       .content-title {
         @include font-h3();
         @include flex-layout();
@@ -68,7 +63,6 @@
     .info-wrap {
       width: 100%;
       padding: 35px 0;
-        padding-bottom: 0;
       .how-title {
         @include font-h3();
         @include flex-layout(row, flex-start, center);
@@ -84,6 +78,7 @@
         width: 100%;
         gap: 15px;
         li {
+          z-index: 100;
           width: 100%;
           height: 65px;
           padding: 0 30px;
@@ -110,11 +105,21 @@
 .info-map,
 .info-price,
 .info-how {
-  height: fit-content;
-  max-height: calc(100vh - 70px);
+  min-height: calc(100vh - 210px) ;
+  position: relative;
   background-color: #f8f7fa;
   @include flex-layout(column, space-between, center);
-  img {
+  > img  {
     width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+  @include desktop {
+    min-height: calc(100vh - 70px);
+    background-color: #f8f7fa;
+    @include flex-layout(column, space-between, center);
+    img {
+      width: 100%;
+    }
   }
 }

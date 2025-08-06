@@ -14,7 +14,7 @@ const ScheduleSelect = () => {
   // 로컬 스토리지에 저장된 날짜 불러오기 (없으면 오늘 날짜)
   const today = new Date();
   const storedDate = localStorage.getItem("selectedDate");
-  const initialDate = storedDate ? new Date(storedDate) : today;
+  const initialDate = new Date(storedDate);
   const [selectedDate, setSelectedDate] = useState(initialDate);
 
   const [popUp,setPopUp] = useState(false);
@@ -44,57 +44,63 @@ const ScheduleSelect = () => {
         <FaRegCalendarAlt />
         예약 날짜 선택
       </h2>
+      <div className="calendar-wrap">
+              <ul className="state">
+          <li>
+            <span></span>오늘
+          </li>
+          <li>
+            <span></span>예약 가능
+          </li> 
+          <li>
+            <span></span>잔여 수량 없음
+          </li>
+          <li>
+            <span></span>미운영/준비중
+          </li>
+        </ul>
+        <Calendar
+          onChange={handleDateChange}
+          value={selectedDate}          // 기본값: 세이브 데이터 or 오늘 날짜
+          minDate={today}
+          maxDate={maxDate}
+          defaultActiveStartDate={today}
+          view="month"
+          maxDetail="month"
+          minDetail="month"
+          prev2Label={null}
+          next2Label={null}
+          calendarType="gregory"
+          showNeighboringMonth={false}
+          formatDay={(locale, date) => moment(date).format("DD")}
+          // tileContent={({ date, view }) => {
+          //   if (
+          //     view === "month" &&
+          //     date.getFullYear() === today.getFullYear() &&
+          //     date.getMonth() === today.getMonth() &&
+          //     date.getDate() === today.getDate()
+          //   ) {
+          //     return <div className="today-text">오늘</div>;
+          //   }
+          //   return null;
+          // }}
+        />
 
-      <Calendar
-        onChange={handleDateChange}
-        value={selectedDate}          // 기본값: 세이브 데이터 or 오늘 날짜
-        minDate={today}
-        maxDate={maxDate}
-        defaultActiveStartDate={today}
-        view="month"
-        maxDetail="month"
-        minDetail="month"
-        prev2Label={null}
-        next2Label={null}
-        calendarType="gregory"
-        showNeighboringMonth={false}
-        formatDay={(locale, date) => moment(date).format("DD")}
-        tileContent={({ date, view }) => {
-          if (
-            view === "month" &&
-            date.getFullYear() === today.getFullYear() &&
-            date.getMonth() === today.getMonth() &&
-            date.getDate() === today.getDate()
-          ) {
-            return <div className="today-text">오늘</div>;
-          }
-          return null;
-        }}
-      />
-
-      <ul className="state">
-        <li>
-          <span></span>예약 가능
-        </li>
-        <li>
-          <span></span>잔여 수량 없음
-        </li>
-        <li>
-          <span></span>미운영/준비중
-        </li>
-      </ul>
+      </div>
       <button className="reserve-btn" onClick={handleReserve}>
-        예약하기</button>
+        다음으로</button>
       {
         popUp && (
-          <div className="no-date-selected">
-            <div className="no-date-box">
-              <PiWarningCircleFill />
-              <p>날짜가 선택되지 않았습니다</p>
-              <p className="no-date-bot">날짜 선택 후 이용해 주세요 </p>
-              <button onClick={() => setPopUp(false)}>확인</button>
+        <div className="popup-wrap">
+          <div className="popup">
+            <div className="popup-top">
+              <PiWarningCircleFill className="warning-sign" />
+              <p className="popup-ment1">날짜가 선택되지 않았습니다</p>
+              <p className="popup-ment2">날짜 선택 후 이용해 주세요</p>
             </div>
+            <button onClick={()=>{setPopUp(false)}}>확인</button>
           </div>
+        </div>
         )
       }
     </div>

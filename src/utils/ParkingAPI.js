@@ -4,7 +4,7 @@ import { supabase } from "./supabaseClient";
 //혹시라도 이해안되시면 설명해드릴테니 편히 말씀주세요!
 
 
-/** 회원가입 페이지 - 정우 */ 
+/** 회원가입 페이지 */ 
 /** 1. 로그인 **/
 //필요한 정보 : input에 입력된 userID와 password
 export const fetchLogin = async (userID,password)=>{
@@ -27,6 +27,13 @@ export const fetchAllUserId = async ()=>{
     return {data,error};
 }
 
+//중복된 전화번호 확인을 위한 users테이블의 phone 정보 가져오기
+export const fetchAllPhone = async ()=>{
+    const { data, error } = await supabase
+        .from('users')
+        .select('phone')
+    return {data,error};
+}
 //필요한 정보 : 이름, 아이디, 비밀번호, 차량번호, 휴대폰번호 전부 input value
 export const fetchSignUp = async ({
     username,
@@ -140,11 +147,11 @@ export const cancelReserve = async (reserveID,parkareaZone,parkareaNum)=>{
     return {data:true,error};
 }
 
-/** 3. 비밀번호 변경 **/
+/** 3. 개인정보 변경 **/
 //비밀번호 확인에서 일치하는거
 export const changePassword = async ({
-    oldpass,
-    newpass,
+    id,
+    newPass,
     newName,
     newPhone,
     newCar
@@ -152,12 +159,12 @@ export const changePassword = async ({
     const { error } = await supabase
         .from('users')
         .update({
-            password:newpass,
+            password:newPass,
             name:newName,
             phone:newPhone,
             car:newCar
             })
-        .eq('password',oldpass);
+        .eq('id',id);
     return {error};
 }
 
