@@ -1,5 +1,9 @@
 import userEvent from "@testing-library/user-event";
-import { supabase } from "./supabaseClient";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 //혹시라도 이해안되시면 설명해드릴테니 편히 말씀주세요!
 
